@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_background"
+    tools:context=".activities.newwallet.NewWalletActivity">
+
+    <include
+        android:id="@+id/customActionBar"
+        layout="@layout/custom_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/customActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/newWalletNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Wallet name"
+                android:textColor="@color/white_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletName" />
+
+            <EditText
+                android:id="@+id/newWalletName"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/edittext_background"
+                android:elevation="6dp"
+                android:inputType="text"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/newWalletNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletNameLabel"
+                app:layout_constraintBottom_toTopOf="@+id/viewSeparator1" />
+
+            <View
+                android:id="@+id/viewSeparator1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/white_secondary"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletName"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletPadlockImage" />
+
+            <ImageView
+                android:id="@+id/newWalletPadlockImage"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/viewSeparator1"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletPasswordExplain"
+                app:srcCompat="@drawable/ic_lock" />
+
+            <TextView
+                android:id="@+id/newWalletPasswordExplain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose a password to encrypt the wallet on this device"
+                android:textColor="@color/white_secondary"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletPadlockImage"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletPasswordLabel"
+                tools:layout_editor_absoluteX="178dp" />
+
+            <TextView
+                android:id="@+id/newWalletPasswordLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Password"
+                android:textColor="@color/white_secondary"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletPasswordExplain"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletPassword" />
+
+            <EditText
+                android:id="@+id/newWalletPassword"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/edittext_background"
+                android:elevation="6dp"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/newWalletNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletPasswordLabel"
+                app:layout_constraintBottom_toTopOf="@+id/viewSeparator2" />
+            <View
+                android:id="@+id/viewSeparator2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/white_secondary"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletPassword"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletCreate" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/newWalletCreate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background_blue"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Create"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/viewSeparator2"
+                app:layout_constraintBottom_toTopOf="@+id/newWalletImport" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/newWalletImport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button_background"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Import"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/newWalletName"
+                app:layout_constraintStart_toStartOf="@+id/newWalletName"
+                app:layout_constraintTop_toBottomOf="@+id/newWalletCreate"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

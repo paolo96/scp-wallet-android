@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_background"
+    tools:context=".activities.walletsettings.WalletSettingsActivity">
+
+    <include
+        android:id="@+id/customActionBar"
+        layout="@layout/custom_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/customActionBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/walletSettingsNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Wallet name"
+                android:textColor="@color/white_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsName" />
+
+            <EditText
+                android:id="@+id/walletSettingsName"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/edittext_background"
+                android:elevation="6dp"
+                android:inputType="text"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsNameLabel"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsAddressesLabel" />
+
+            <TextView
+                android:id="@+id/walletSettingsAddressesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:text="Addresses to import"
+                android:textColor="@color/white_secondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsName"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsAddresses" />
+
+            <EditText
+                android:id="@+id/walletSettingsAddresses"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/edittext_background"
+                android:elevation="6dp"
+                android:inputType="number"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsAddressesLabel"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsAddressesLabel"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsSave" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/walletSettingsSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background_blue"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/walletSettingsName"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsName"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsAddresses"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsChangePassword" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/walletSettingsChangePassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Change Password"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/walletSettingsName"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsName"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsSave"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsExport" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/walletSettingsExport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Export"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/walletSettingsName"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsName"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsChangePassword"
+                app:layout_constraintBottom_toTopOf="@+id/walletSettingsDelete" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/walletSettingsDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button_background"
+                android:clipToPadding="false"
+                android:elevation="10dp"
+                android:text="Remove Wallet"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/walletSettingsName"
+                app:layout_constraintStart_toStartOf="@+id/walletSettingsName"
+                app:layout_constraintTop_toBottomOf="@+id/walletSettingsExport"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

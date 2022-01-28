@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_background"
+    tools:context=".activities.send.SendActivity">
+
+    <include
+        android:id="@+id/customActionBar"
+        layout="@layout/custom_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/sendAmount"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/edittext_background"
+        android:elevation="6dp"
+        android:inputType="numberDecimal"
+        android:paddingStart="50dp"
+        android:paddingEnd="45dp"
+        android:hint="Amount"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customActionBar" />
+
+    <TextView
+        android:id="@+id/sendAmountCurrency"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:text="SCP"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sendAmount"
+        app:layout_constraintStart_toStartOf="@+id/sendAmount"
+        app:layout_constraintTop_toTopOf="@+id/sendAmount" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:background="@color/white_secondary"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sendAmount"
+        app:layout_constraintTop_toTopOf="@+id/sendAmount"
+        app:layout_constraintStart_toEndOf="@+id/sendAmountCurrency" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/sendAmountChangeCurrency"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edittext_background"
+        android:elevation="6dp"
+        android:padding="10dp"
+        app:srcCompat="@drawable/ic_change_currency"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintBottom_toBottomOf="@+id/sendAmount"
+        app:layout_constraintTop_toTopOf="@+id/sendAmount"
+        app:layout_constraintEnd_toEndOf="@+id/sendAmount" />
+
+    <TextView
+        android:id="@+id/sendAmountOtherCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:textColor="@color/white_secondary"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:text="$0"
+        app:layout_constraintEnd_toEndOf="@+id/sendAmount"
+        app:layout_constraintStart_toStartOf="@+id/sendAmount"
+        app:layout_constraintTop_toBottomOf="@+id/sendAmount" />
+
+    <TextView
+        android:id="@+id/sendAddressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Address"
+        android:textColor="@color/white_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendAmountOtherCurrency" />
+
+    <EditText
+        android:id="@+id/sendAddress"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/edittext_background"
+        android:elevation="6dp"
+        android:inputType="text"
+        android:paddingStart="12dp"
+        android:paddingEnd="45dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendAddressLabel" />
+
+    <TextView
+        android:id="@+id/sendTransactionFees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendAddress" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/sendAddressScan"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@drawable/edittext_background"
+        android:elevation="10dp"
+        android:padding="12dp"
+        app:srcCompat="@drawable/ic_scan"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintBottom_toBottomOf="@+id/sendAddress"
+        app:layout_constraintTop_toTopOf="@+id/sendAddress"
+        app:layout_constraintEnd_toEndOf="@+id/sendAddress" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sendButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_background_blue"
+        android:clipToPadding="false"
+        android:elevation="10dp"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendTransactionFees" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

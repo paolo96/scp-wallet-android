@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/itemNewWalletBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/card_background_blue"
+        android:elevation="10dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemNewWalletTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="10dp"
+        android:textColor="@android:color/white"
+        android:text="Add a wallet"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/itemNewWalletBackground"
+        app:layout_constraintTop_toTopOf="@+id/itemNewWalletBackground" />
+
+    <TextView
+        android:id="@+id/itemNewWalletInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:elevation="10dp"
+        android:layout_marginEnd="22dp"
+        android:text="It's free and you can\ncreate as many as you like"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/itemNewWalletTitle"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toBottomOf="@+id/itemNewWalletTitle" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/itemNewWalletButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="22dp"
+        android:background="@drawable/button_background_blue"
+        android:clipToPadding="false"
+        android:elevation="16dp"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp"
+        android:stateListAnimator="@null"
+        android:text="Add now"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/itemNewWalletBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/itemNewWalletTitle"
+        app:layout_constraintTop_toBottomOf="@+id/itemNewWalletInfo"
+        app:layout_constraintVertical_bias="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

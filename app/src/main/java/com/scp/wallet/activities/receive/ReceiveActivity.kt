@@ -1,0 +1,156 @@
+package com.scp.wallet.activities.receive
+
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.scp.wallet.activities.wallets.WalletsActivity
+import com.scp.wallet.databinding.ActivityReceiveBinding
+import com.scp.wallet.exceptions.WalletLockedException
+import com.scp.wallet.scp.UnlockHash
+import com.scp.wallet.ui.Popup
+import com.scp.wallet.ui.QRcode
+import com.scp.wallet.wallet.Wallet
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+class ReceiveActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityReceiveBinding
+    private lateinit var wallet: Wallet
+
+    private val receiveViewModel: ReceiveViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityReceiveBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.customActionBar.actionBarTitle.text = "Receive SCP"
+
+        val walletId = intent.getStringExtra(WalletsActivity.IE_WALLET_ID)
+        val walletPwd = intent.getByteArrayExtra(WalletsActivity.IE_WALLET_PWD)
+
+        if(walletId != null) {
+
+            loadReceiveWallet(walletId, walletPwd)
+
+            initViews()
+            initObservers()
+            initListeners()
+
+        } else {
+            setResult(RESULT_CANCELED, Intent())
+            finish()
+        }
+
+    }
+
+    private fun loadReceiveWallet(walletId: String, walletPwd: ByteArray?) {
+
+        wallet = Wallet(walletId, this)
+        walletPwd?.let {
+            wallet.unlockWithKey(it)
+        }
+
+        val walletKeys = wallet.getKeys()
+        if(walletKeys.isEmpty()) {
+            newAddress {
+                setResult(RESULT_CANCELED, Intent())
+                finish()
+            }
+        } else {
+            val lastWalletAddress = UnlockHash.fromUnlockConditionsToAddress(walletKeys[walletKeys.size-1].unlockConditions)
+            receiveViewModel.address.value = lastWalletAddress
+        }
+
+
+    }
+
+    private fun initViews() {
+
+        val walletTitle = "Wallet ${wallet.name}"
+        binding.receiveWalletName.text = walletTitle
+
+    }
+
+    private fun initObservers() {
+
+        receiveViewModel.address.observe(this, { address ->
+            showAddress(address)
+        })
+
+    }
+
+    private fun initListeners() {
+
+        binding.receiveCopyButton.setOnClickListener {
+            val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("SCP address", receiveViewModel.address.value)
+            clipboard.setPrimaryClip(clip)
+        }
+
+        binding.receiveShareButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_TEXT, receiveViewModel.address.value)
+            startActivity(Intent.createChooser(intent, "Share using"))
+        }
+
+        binding.receiveNewAddressButton.setOnClickListener {
+            newAddress()
+        }
+
+        binding.customActionBar.actionBarBack.setOnClickListener {
+            onBackPressed()
+        }
+
+    }
+
+    override fun onBackPressed() {
+        val returnIntent = Intent()
+        returnIntent.putExtra(WalletsActivity.IE_WALLET_ID, wallet.id)
+        returnIntent.putExtra(WalletsActivity.IE_WALLET_PWD, wallet.getPassword())
+        setResult(RESULT_OK, returnIntent)
+        finish()
+    }
+
+    private fun activateNewAddressButtonWithDelay() {
+        lifecycleScope.launch {
+            delay(1000)
+            runOnUiThread {
+                binding.receiveNewAddressButton.isEnabled = true
+            }
+        }
+    }
+
+    private fun showAddress(address: String) {
+
+        val qrCode = QRcode.create(address)
+        binding.receiveImageQR.setImageBitmap(qrCode)
+        binding.receiveAddress.text = address
+
+    }
+
+    private fun newAddress(callbackFail: (() -> Unit)? = null) {
+        binding.receiveNewAddressButton.isEnabled = false
+        try {
+            receiveViewModel.address.value = wallet.newAddress()
+            activateNewAddressButtonWithDelay()
+        } catch (e: WalletLockedException) {
+            Popup.showUnlockWallet(wallet, this) { result ->
+                if(result) {
+                    receiveViewModel.address.value = wallet.newAddress()
+                    activateNewAddressButtonWithDelay()
+                } else {
+                    activateNewAddressButtonWithDelay()
+                    if(callbackFail != null) callbackFail()
+                }
+            }
+        }
+    }
+
+}

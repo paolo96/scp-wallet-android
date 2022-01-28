@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_background"
+    tools:context=".activities.wallets.WalletsActivity">
+
+    <include
+        android:id="@+id/customActionBar"
+        layout="@layout/custom_action_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/walletsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customActionBar" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/walletsSendButton"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_background"
+        android:elevation="6dp"
+        android:clipToPadding="false"
+        app:layout_constraintEnd_toStartOf="@+id/walletsReceiveButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/walletsRecycler" />
+
+    <TextView
+        android:id="@+id/walletsSendButtonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Send"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/walletsSendButton"
+        app:layout_constraintEnd_toEndOf="@+id/walletsSendButton"
+        app:layout_constraintStart_toStartOf="@+id/walletsSendButton"
+        app:layout_constraintTop_toTopOf="@+id/walletsSendButton" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/walletsSendButtonIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:layout_marginStart="8dp"
+        app:srcCompat="@drawable/ic_send"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="@+id/walletsSendButtonText"
+        app:layout_constraintEnd_toEndOf="@+id/walletsSendButton"
+        app:layout_constraintStart_toEndOf="@+id/walletsSendButtonText"
+        app:layout_constraintTop_toTopOf="@+id/walletsSendButtonText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/walletsReceiveButton"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_background"
+        android:elevation="6dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="@+id/walletsSendButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/walletsSendButton"
+        app:layout_constraintTop_toTopOf="@+id/walletsSendButton" />
+
+    <TextView
+        android:id="@+id/walletsReceiveButtonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Receive"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/walletsReceiveButton"
+        app:layout_constraintEnd_toEndOf="@+id/walletsReceiveButton"
+        app:layout_constraintStart_toStartOf="@+id/walletsReceiveButton"
+        app:layout_constraintTop_toTopOf="@+id/walletsReceiveButton" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/walletsReceiveButtonIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:layout_marginStart="8dp"
+        app:srcCompat="@drawable/ic_receive"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="@+id/walletsReceiveButtonText"
+        app:layout_constraintEnd_toEndOf="@+id/walletsReceiveButton"
+        app:layout_constraintStart_toEndOf="@+id/walletsReceiveButtonText"
+        app:layout_constraintTop_toTopOf="@+id/walletsReceiveButtonText" />
+
+    <TextView
+        android:id="@+id/walletsTransactionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Transactions"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/walletTransactionsRefresh"
+        app:layout_constraintBottom_toBottomOf="@+id/walletTransactionsRefresh" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/walletTransactionsRefresh"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="12dp"
+        android:elevation="10dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="24dp"
+        app:srcCompat="@drawable/ic_refresh"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/walletsSendButton" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/walletTransactionsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/walletTransactionsRefresh" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/floatingScan"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_background_blue"
+        android:elevation="16dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/floatingScanText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Scan"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingScan"
+        app:layout_constraintEnd_toEndOf="@+id/floatingScan"
+        app:layout_constraintStart_toStartOf="@+id/floatingScan"
+        app:layout_constraintTop_toTopOf="@+id/floatingScan" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/floatingScanIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="16dp"
+        android:layout_marginStart="8dp"
+        app:srcCompat="@drawable/ic_scan"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingScan"
+        app:layout_constraintEnd_toEndOf="@+id/floatingScan"
+        app:layout_constraintStart_toEndOf="@+id/floatingScanText"
+        app:layout_constraintTop_toTopOf="@+id/floatingScan" />
+
+    <TextView
+        android:id="@+id/walletsNoTransactions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:textColor="@color/white_secondary"
+        android:visibility="gone"
+        android:alpha="0"
+        android:text="This wallet has no transactions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/walletsTransactionTitle"
+        app:layout_constraintTop_toBottomOf="@+id/walletsTransactionTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
