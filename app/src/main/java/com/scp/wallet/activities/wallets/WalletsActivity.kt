@@ -58,7 +58,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         binding.customActionBar.actionBarBack.visibility = View.GONE
         binding.customActionBar.actionBarExtra.setImageResource(R.drawable.ic_settings)
         binding.customActionBar.actionBarExtra.visibility = View.VISIBLE
-        binding.customActionBar.actionBarExtra2.setImageResource(R.drawable.ic_settings)
+        binding.customActionBar.actionBarExtra2.setImageResource(R.drawable.ic_code)
         binding.customActionBar.actionBarExtra2.visibility = View.VISIBLE
 
         walletsViewModel.updateScprimeData()
@@ -203,7 +203,11 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         binding.customActionBar.actionBarExtra2.setOnClickListener {
 
             val i = Intent(this, DonationsActivity::class.java)
-            this.startActivity(i)
+            val currentWallet = walletsAdapter.currentList.getOrNull(walletsLayoutManager.findFirstVisibleItemPosition())
+            if(currentWallet != null) {
+                i.putExtra(IE_WALLET_ID, currentWallet.id)
+            }
+            resultRequestDonations.launch(i)
 
         }
 
