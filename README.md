@@ -18,17 +18,6 @@ Information that allows to spend funds does never leave the device, thus limitin
 
 The server is chosen from a list of trusted servers hardcoded in the app and it can be changed by the user. It is advised to run your own *scp-wallet-api* instance for maximum security.
 
-## Preview
-
-<p float="left">
-  <img src="https://user-images.githubusercontent.com/24766249/151459283-e55d7695-84fd-4f4d-ac87-b2f7bc0adaf2.png" width="49%" />
-  <img src="https://user-images.githubusercontent.com/24766249/151459284-fe817abb-2d48-4d88-9b8e-f05a8e563453.png" width="49%" />
-</p>
-<p float="left">
-  <img src="https://user-images.githubusercontent.com/24766249/151459274-aed9acf5-d4ee-4349-ad4f-e3de0425ac7c.png" width="49%" />
-  <img src="https://user-images.githubusercontent.com/24766249/151459279-a0b23109-8c9d-46b9-bfa4-6f99f06d7686.png" width="49%" />
-</p>
-
 ## Support the project
 
 If you find SCP Wallet useful and you want to contribute to the project, there are multiple things you can do:
@@ -46,3 +35,15 @@ Feel free to make a pull request to add useful features or bug fixes.
 ### Run a *scp-wallet-api* server
 
 If you're able to run a reliable server contact me to be added to the list of trusted servers.
+
+
+## Preview
+
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/24766249/151459283-e55d7695-84fd-4f4d-ac87-b2f7bc0adaf2.png" width="49%" />
+  <img src="https://user-images.githubusercontent.com/24766249/151459284-fe817abb-2d48-4d88-9b8e-f05a8e563453.png" width="49%" />
+</p>
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/24766249/151459274-aed9acf5-d4ee-4349-ad4f-e3de0425ac7c.png" width="49%" />
+  <img src="https://user-images.githubusercontent.com/24766249/151459279-a0b23109-8c9d-46b9-bfa4-6f99f06d7686.png" width="49%" />
+</p>
