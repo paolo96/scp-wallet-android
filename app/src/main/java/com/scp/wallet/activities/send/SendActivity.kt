@@ -17,6 +17,7 @@ import com.scp.wallet.exceptions.InvalidUnlockHashException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Android
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -110,49 +111,64 @@ class SendActivity : AppCompatActivity() {
 
         binding.sendButton.setOnClickListener {
 
-            var insertedValue = CurrencyValue(BigInteger.ZERO)
-            val value = (binding.sendAmount.text.toString().toDoubleOrNull() ?: 0.0)
-            if(currencyScp) {
-                insertedValue = CurrencyValue.initFromDouble(value)
-            } else {
-                scpFiat?.let { scpFiatValue ->
-                    insertedValue = CurrencyValue.initFromDouble(value*scpFiatValue)
+            if(Android.isEmulator()) {
+                Popup.showChoice("Warning", "Crypto signing may not work in the emulator. Do you want to proceed anyway?", this) {
+                    if(it) {
+                        send()
+                    }
                 }
+            } else {
+                send()
             }
 
-            val walletBalance = wallet.getBalance()
-            if(insertedValue.value <= BigInteger.ZERO) {
-                binding.sendAmount.setText("")
-                Toast.makeText(this, "Invalid amount, no transaction sent", Toast.LENGTH_SHORT).show()
-            } else if(insertedValue.value > walletBalance.value) {
-                Popup.showSimple("Not enough funds", "Cannot send ${insertedValue.toScpReadable()}. The balance for this wallet is ${walletBalance.toScpReadable()}", this)
+        }
+
+    }
+
+    private fun send() {
+
+        var insertedValue = CurrencyValue(BigInteger.ZERO)
+        val value = (binding.sendAmount.text.toString().toDoubleOrNull() ?: 0.0)
+        if(currencyScp) {
+            insertedValue = CurrencyValue.initFromDouble(value)
+        } else {
+            scpFiat?.let { scpFiatValue ->
+                insertedValue = CurrencyValue.initFromDouble(value*scpFiatValue)
+            }
+        }
+
+        val walletBalance = wallet.getBalance()
+        if(insertedValue.value <= BigInteger.ZERO) {
+            binding.sendAmount.setText("")
+            Toast.makeText(this, "Invalid amount, no transaction sent", Toast.LENGTH_SHORT).show()
+        } else if(insertedValue.value > walletBalance.value) {
+            Popup.showSimple("Not enough funds", "Cannot send ${insertedValue.toScpReadable()}. The balance for this wallet is ${walletBalance.toScpReadable()}", this)
+        } else {
+            val insertedAddress = binding.sendAddress.text.toString().lowercase().replace("[^0-9a-f]".toRegex(), "")
+            if(insertedAddress == "") {
+                Toast.makeText(this, "No address inserted", Toast.LENGTH_SHORT).show()
             } else {
-                val insertedAddress = binding.sendAddress.text.toString().lowercase().replace("[^0-9a-f]".toRegex(), "")
-                if(insertedAddress == "") {
-                    Toast.makeText(this, "No address inserted", Toast.LENGTH_SHORT).show()
-                } else {
 
-                    try {
-                        val unlockHash = UnlockHash.fromString(insertedAddress)
+                try {
+                    val unlockHash = UnlockHash.fromString(insertedAddress)
 
-                        binding.sendButton.isEnabled = false
+                    binding.sendButton.isEnabled = false
 
-                        //TODO add switch to UI for feeIncluded
-                        wallet.send(insertedValue, unlockHash, false, {
-                            binding.sendAmount.setText("")
-                            binding.sendAddress.setText("")
-                            Popup.showSimple("Transaction sent", "The transaction has been successfully sent.", this) {
-                                onBackPressed()
-                            }
-                        }, {
-                            Popup.showSimple("Transaction not sent", it, this)
-                            activateSendButtonWithDelay()
-                        })
-
-                    } catch (e: InvalidUnlockHashException) {
-                        Popup.showSimple("Invalid address", "${e.message}", this)
+                    //TODO add switch to UI for feeIncluded
+                    wallet.send(insertedValue, unlockHash, false, {
+                        binding.sendAmount.setText("")
+                        binding.sendAddress.setText("")
+                        Popup.showSimple("Transaction sent", "The transaction has been successfully sent.", this) {
+                            onBackPressed()
+                        }
+                    }, {
+                        Popup.showSimple("Transaction not sent", it, this)
                         activateSendButtonWithDelay()
-                    }
+                    })
+
+                } catch (e: InvalidUnlockHashException) {
+                    Popup.showSimple("Invalid address", "${e.message}", this)
+                    activateSendButtonWithDelay()
                 }
             }
         }

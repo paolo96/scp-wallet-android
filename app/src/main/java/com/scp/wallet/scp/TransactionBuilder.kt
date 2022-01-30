@@ -141,7 +141,9 @@ class TransactionBuilder(val wallet: Wallet) {
                 }
 
             }
-        }, {})
+        }, {
+            callbackError("The transaction could not be created due to a connection issue")
+        })
 
     }
 
