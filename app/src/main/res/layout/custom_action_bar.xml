@@ -30,6 +30,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/actionBarExtra2"
+        android:layout_width="0dp"
+        android:layout_height="26dp"
+        android:layout_marginEnd="12dp"
+        android:elevation="10dp"
+        android:background="@drawable/button_background"
+        android:visibility="gone"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/actionBarExtra"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/actionBarExtra"
         android:layout_width="0dp"
         android:layout_height="26dp"

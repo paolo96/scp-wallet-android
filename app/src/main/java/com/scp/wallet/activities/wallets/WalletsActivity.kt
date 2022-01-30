@@ -58,6 +58,8 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         binding.customActionBar.actionBarBack.visibility = View.GONE
         binding.customActionBar.actionBarExtra.setImageResource(R.drawable.ic_settings)
         binding.customActionBar.actionBarExtra.visibility = View.VISIBLE
+        binding.customActionBar.actionBarExtra2.setImageResource(R.drawable.ic_settings)
+        binding.customActionBar.actionBarExtra2.visibility = View.VISIBLE
 
         walletsViewModel.updateScprimeData()
 
@@ -198,10 +200,15 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
         }
 
+        binding.customActionBar.actionBarExtra2.setOnClickListener {
+
+            val i = Intent(this, DonationsActivity::class.java)
+            this.startActivity(i)
+
+        }
+
         binding.walletTransactionsRefresh.setOnClickListener {
-
             refresh()
-
         }
 
     }
@@ -304,6 +311,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                             openWalletSend(currentWallet, DonationsActivity.DONATION_ADDRESS_SCP)
                         }
                     }
+
                 } else {
                     Popup.showSimple("No wallet selected", "Switch to the wallet you wish to make the donation from.", this)
                 }
