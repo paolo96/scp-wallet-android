@@ -37,6 +37,7 @@
         android:elevation="10dp"
         android:padding="6dp"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         android:background="@drawable/button_background"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintBottom_toBottomOf="parent"

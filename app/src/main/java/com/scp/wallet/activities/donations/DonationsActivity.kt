@@ -44,16 +44,16 @@ class DonationsActivity : AppCompatActivity() {
 
     private fun initListeners() {
 
-        binding.donationsBTCAddressCopy.setOnClickListener {
+        binding.donationsSCPAddressCopy.setOnClickListener {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip: ClipData = ClipData.newPlainText("SCP address", DONATION_ADDRESS_SCP)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
         }
 
-        binding.donationsSCPAddressCopy.setOnClickListener {
+        binding.donationsBTCAddressCopy.setOnClickListener {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("BTC address", DONATION_ADDRESS_BTC)
+            val clip: ClipData = ClipData.newPlainText("SCP address", DONATION_ADDRESS_BTC)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
         }

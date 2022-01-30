@@ -12,7 +12,6 @@ import com.scp.wallet.utils.px
 
 object SeedInterface {
 
-
     //We draw the words programmatically to ensure that every word is visible without the need
     //to scroll and thus preventing the user from missing any word
     fun drawSeed(seed: String, container: GridLayout, context: Context) {
@@ -40,9 +39,9 @@ object SeedInterface {
             for(i in words.indices) {
 
                 val layoutParams = if(i == words.size-1 && words.size == 29) {
-                    GridLayout.LayoutParams(GridLayout.spec(i/4), GridLayout.spec(i%4, 4, 1f))
+                    GridLayout.LayoutParams(GridLayout.spec(i/4), GridLayout.spec(i%4, 4))
                 } else {
-                    GridLayout.LayoutParams(GridLayout.spec(i/4), GridLayout.spec(i%4, 1f))
+                    GridLayout.LayoutParams(GridLayout.spec(i/4), GridLayout.spec(i%4))
                 }
                 layoutParams.width = GridLayout.LayoutParams.WRAP_CONTENT
                 layoutParams.setGravity(Gravity.CENTER_HORIZONTAL)
