@@ -3,6 +3,7 @@
     package="com.scp.wallet">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -11,11 +12,14 @@
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScPrimeWallet"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.donations.DonationsActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.scan.ScanActivity"
             android:exported="false" />

@@ -1,6 +1,7 @@
 package com.scp.wallet.activities.settings
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.scp.wallet.activities.launch.LaunchActivity
@@ -52,6 +53,11 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.customActionBar.actionBarBack.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.settingsCode.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/paolo96/scp-wallet-android"))
+            startActivity(i)
         }
 
     }

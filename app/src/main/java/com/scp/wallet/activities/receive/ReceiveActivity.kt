@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.scp.wallet.activities.wallets.WalletsActivity
@@ -91,6 +92,7 @@ class ReceiveActivity : AppCompatActivity() {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip: ClipData = ClipData.newPlainText("SCP address", receiveViewModel.address.value)
             clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
         }
 
         binding.receiveShareButton.setOnClickListener {

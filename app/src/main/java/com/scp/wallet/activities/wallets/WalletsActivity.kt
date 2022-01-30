@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.scp.wallet.R
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.scp.wallet.activities.donations.DonationsActivity
 import com.scp.wallet.activities.receive.ReceiveActivity
 import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.send.SendActivity
@@ -29,6 +30,7 @@ import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
+import java.math.BigInteger
 
 class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
@@ -38,6 +40,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
     private lateinit var resultRequestSettings: ActivityResultLauncher<Intent>
     private lateinit var resultRequestReceive: ActivityResultLauncher<Intent>
     private lateinit var resultRequestSend: ActivityResultLauncher<Intent>
+    private lateinit var resultRequestDonations: ActivityResultLauncher<Intent>
 
     private val walletsViewModel: WalletsViewModel by viewModels()
 
@@ -267,8 +270,8 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
                         walletsAdapter.currentList.getOrNull(walletsLayoutManager.findFirstVisibleItemPosition())?.let { selectedWallet ->
                             if(selectedWallet.getSeed() == null) {
-                                Popup.showUnlockWallet(selectedWallet, this) { result ->
-                                    if(result) {
+                                Popup.showUnlockWallet(selectedWallet, this) { resultUnlock ->
+                                    if(resultUnlock) {
                                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
                                         openWalletSend(selectedWallet, address)
                                     }
@@ -279,6 +282,30 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                         }
 
                     }
+                }
+            }
+        }
+
+        resultRequestDonations = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val currentWallet = walletsAdapter.currentList.getOrNull(walletsLayoutManager.findFirstVisibleItemPosition())
+                if(currentWallet != null) {
+
+                    if(currentWallet.getBalance().value == BigInteger.ZERO) {
+                        Popup.showSimple("Empty wallet", "This wallet has no funds.", this)
+                    } else {
+                        if(currentWallet.getSeed() == null) {
+                            Popup.showUnlockWallet(currentWallet, this) { resultUnlock ->
+                                if(resultUnlock) {
+                                    openWalletSend(currentWallet, DonationsActivity.DONATION_ADDRESS_SCP)
+                                }
+                            }
+                        } else {
+                            openWalletSend(currentWallet, DonationsActivity.DONATION_ADDRESS_SCP)
+                        }
+                    }
+                } else {
+                    Popup.showSimple("No wallet selected", "Switch to the wallet you wish to make the donation from.", this)
                 }
             }
         }
