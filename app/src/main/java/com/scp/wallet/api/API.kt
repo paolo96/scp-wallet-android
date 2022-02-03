@@ -6,6 +6,7 @@ import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.*
 import java.math.BigInteger
 import com.scp.wallet.scp.*
+import com.scp.wallet.utils.Hex
 
 
 object API {

@@ -50,6 +50,7 @@ class TransactionBuilder(val wallet: Wallet) {
                 val scpOutputs = scpOutputsResult.first
                 val scpOutputsRespendTimeout = scpOutputsResult.second
 
+
                 //Check if the wallet has enough funds to send the transaction
                 //Also checks if the funds are in unconfirmed transactions and stops if the
                 //necessary funds are in unconfirmed transactions
@@ -163,7 +164,6 @@ class TransactionBuilder(val wallet: Wallet) {
         return Pair(parents.toTypedArray(), transaction)
     }
 
-    //Multisig not supported currently
     private fun addSignatures(txn: Transaction, uc: UnlockConditions, parentId: ByteArray, secretKeys: Array<ByteArray>, height: Int) : Int {
 
         var newSigIndex = 0
@@ -177,8 +177,8 @@ class TransactionBuilder(val wallet: Wallet) {
 
                 val sig = TransactionSignature(parentId, i)
                 newSigIndex = txn.signatures.size
-                val newSigs = arrayListOf(sig)
-                newSigs.addAll(txn.signatures)
+                val newSigs = txn.signatures.toMutableList()
+                newSigs.add(sig)
                 txn.signatures = newSigs.toTypedArray()
                 val sigIndex = txn.signatures.size-1
                 val sigHash = txn.sigHash(sigIndex, height)
