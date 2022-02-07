@@ -110,28 +110,35 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         }
 
         walletsViewModel.transactions.observe(this) {
-            transactionsAdapter.submitList(it)
 
-            binding.walletTransactionsRecycler.post {
-                val walletIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+            val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+            val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+            if(currentWallet != null && it.first?.id == currentWallet.id) {
 
-                if(it.size == 0 && walletsViewModel.wallets.value?.size != walletIndex) {
-                    binding.walletsNoTransactions.visibility = View.VISIBLE
-                    binding.walletsNoTransactions.animate().alpha(1f)
-                    binding.walletTransactionsRecycler.animate().alpha(0f)
-                } else {
-                    walletsAdapter.notifyItemChanged(walletIndex)
-                    binding.walletsNoTransactions.animate().alpha(0f).withEndAction {
-                        binding.walletsNoTransactions.visibility = View.GONE
-                        binding.walletTransactionsRecycler.animate().alpha(1f)
+                transactionsAdapter.submitList(it.second)
+
+                binding.walletTransactionsRecycler.post {
+                    val walletIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+
+                    if(it.second.size == 0 && walletsViewModel.wallets.value?.size != walletIndex) {
+                        binding.walletsNoTransactions.visibility = View.VISIBLE
+                        binding.walletsNoTransactions.animate().alpha(1f)
+                        binding.walletTransactionsRecycler.animate().alpha(0f)
+                    } else {
+                        walletsAdapter.notifyItemChanged(walletIndex)
+                        binding.walletsNoTransactions.animate().alpha(0f).withEndAction {
+                            binding.walletsNoTransactions.visibility = View.GONE
+                            binding.walletTransactionsRecycler.animate().alpha(1f)
+                        }
                     }
                 }
+
             }
         }
 
         walletsViewModel.consensusHeight.observe(this) {
             walletsViewModel.transactions.value?.let { transactions ->
-                walletsViewModel.transactionsBlocksPassed(transactions)
+                walletsViewModel.transactionsBlocksPassed(transactions.second)
                 walletsViewModel.transactions.value = transactions
             }
         }
@@ -219,21 +226,28 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
     private fun refresh() {
 
-        val anim = ObjectAnimator.ofFloat(binding.walletTransactionsRefresh, "rotation", 0f, 360f).apply {
-            duration = 500
-            repeatMode = ValueAnimator.RESTART
-        }
-        anim.repeatCount = Animation.INFINITE
-        anim.start()
-        binding.walletTransactionsRefresh.isClickable = false
-        walletsViewModel.updateTransactionsAndScprimeData(WeakReference(walletsAdapter), WeakReference(walletsLayoutManager)) {
-            anim.repeatCount = 0
+        val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+        val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+        if (currentWallet != null) {
 
-            lifecycleScope.launch {
-                delay(1000)
-                runOnUiThread {
-                    binding.walletTransactionsRefresh.isClickable = true
+            val anim = ObjectAnimator.ofFloat(binding.walletTransactionsRefresh, "rotation", 0f, 360f).apply {
+                duration = 500
+                repeatMode = ValueAnimator.RESTART
+            }
+            anim.repeatCount = Animation.INFINITE
+            anim.start()
+            binding.walletTransactionsRefresh.isClickable = false
+
+            walletsViewModel.updateTransactionsAndScprimeData(currentWallet) {
+                anim.repeatCount = 0
+
+                lifecycleScope.launch {
+                    delay(1000)
+                    runOnUiThread {
+                        binding.walletTransactionsRefresh.isClickable = true
+                    }
                 }
+
             }
 
         }
@@ -329,8 +343,14 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
             if(walletsLayoutManager.findFirstVisibleItemPosition() == wallets.size) {
                 toggleAddWalletUI(true)
             } else {
-                walletsViewModel.updateTransactions(WeakReference(walletsAdapter), WeakReference(walletsLayoutManager))
+
+                val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+                val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+                if (currentWallet != null) {
+                    walletsViewModel.updateTransactions(currentWallet)
+                }
                 toggleAddWalletUI(false)
+
             }
         }
     }

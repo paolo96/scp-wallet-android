@@ -25,8 +25,8 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
         value = restoreWallets()
     }
 
-    val transactions = MutableLiveData<ArrayList<Transaction>>().apply {
-        value = arrayListOf()
+    val transactions = MutableLiveData<Pair<Wallet?, ArrayList<Transaction>>>().apply {
+        value = Pair(null, arrayListOf())
     }
 
     val consensusHeight = MutableLiveData<Int>()
@@ -90,9 +90,9 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
 
     //Updates current displayed wallet transactions and scprime data and calls the callback
     //when both have finished
-    fun updateTransactionsAndScprimeData(walletsAdapter: WeakReference<WalletsAdapter>, walletsLayoutManager: WeakReference<LinearLayoutManager>, callback: (() -> Unit)? = null) {
+    fun updateTransactionsAndScprimeData(currentWallet: Wallet, callback: (() -> Unit)? = null) {
         var firstCallDone = false
-        updateTransactions(walletsAdapter, walletsLayoutManager) {
+        updateTransactions(currentWallet) {
             if(firstCallDone) {
                 callback?.let { it() }
             } else {
@@ -110,41 +110,25 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
 
     //Updates transactions with the ones the wallet currently owns, then it sends an API request
     //to get the most recent transactions and it updates only if the activity is still there
-    fun updateTransactions(walletsAdapter: WeakReference<WalletsAdapter>, walletsLayoutManager: WeakReference<LinearLayoutManager>, callback: (() -> Unit)? = null) {
-        val currentIndex = walletsLayoutManager.get()?.findFirstVisibleItemPosition()
-        if(currentIndex != null) {
-            val currentWallet = walletsAdapter.get()?.currentList?.getOrNull(currentIndex)
-            if(currentWallet == null) {
-                transactions.value = arrayListOf()
-                callback?.let { it() }
-            } else {
-                val currTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
-                transactionsBlocksPassed(currTransactions)
-                transactions.value = ArrayList(currTransactions)
-                try {
-                    currentWallet.downloadWalletData { result ->
-                        if(result) {
-                            val newPosition = walletsLayoutManager.get()?.findFirstVisibleItemPosition()
-                            if(newPosition == currentIndex && walletsAdapter.get()?.currentList?.getOrNull(newPosition)?.id == currentWallet.id) {
-                                val newTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
-                                transactionsBlocksPassed(newTransactions)
-                                scpPrice.value?.let { scpPrice ->
-                                    currentWallet.updateFiatBalance(scpPrice)
-                                }
-                                transactions.postValue(ArrayList(newTransactions))
-                                callback?.let { it() }
-                            } else {
-                                callback?.let { it() }
-                            }
-                        } else {
-                            callback?.let { it() }
-                        }
+    fun updateTransactions(currentWallet: Wallet, callback: (() -> Unit)? = null) {
+        val currTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
+        transactionsBlocksPassed(currTransactions)
+        transactions.value = Pair(currentWallet, ArrayList(currTransactions))
+        try {
+            currentWallet.downloadWalletData { result ->
+                if(result) {
+                    val newTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
+                    transactionsBlocksPassed(newTransactions)
+                    scpPrice.value?.let { scpPrice ->
+                        currentWallet.updateFiatBalance(scpPrice)
                     }
-                } catch (e: ApiException) {
+                    transactions.postValue(Pair(currentWallet, ArrayList(newTransactions)))
+                    callback?.let { it() }
+                } else {
                     callback?.let { it() }
                 }
             }
-        } else {
+        } catch (e: ApiException) {
             callback?.let { it() }
         }
     }
