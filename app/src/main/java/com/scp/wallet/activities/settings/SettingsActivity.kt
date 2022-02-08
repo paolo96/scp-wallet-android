@@ -4,8 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import com.scp.wallet.R
 import com.scp.wallet.activities.launch.LaunchActivity
-import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.databinding.ActivitySettingsBinding
 import com.scp.wallet.ui.Popup
@@ -28,6 +29,11 @@ class SettingsActivity : AppCompatActivity() {
     private fun initViews() {
 
         binding.settingsServer.setText(API.host)
+
+        ArrayAdapter.createFromResource(this, R.array.currencies_array, R.layout.spinner_item_selected).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_item)
+            binding.spinnerCurrency.adapter = adapter
+        }
 
     }
 
