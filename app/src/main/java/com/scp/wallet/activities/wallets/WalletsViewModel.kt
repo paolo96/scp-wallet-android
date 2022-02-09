@@ -9,6 +9,7 @@ import com.scp.wallet.api.API
 import com.scp.wallet.exceptions.ApiException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.Transaction
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 import java.math.BigInteger
 
@@ -91,10 +92,10 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun restoreCurrency() : String {
-        var result = "USD"
+        var result = Currency.DEFAULT_CURRENCY
         val app = getApplication<Application>()
         val sp = app.getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, AppCompatActivity.MODE_PRIVATE)
-        sp.getString(LaunchActivity.SP_FILE_SETTINGS, result)?.let {
+        sp.getString(LaunchActivity.SP_CURRENCY, result)?.let {
             result = it
         }
         return result

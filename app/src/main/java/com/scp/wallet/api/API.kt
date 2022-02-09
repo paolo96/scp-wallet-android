@@ -36,7 +36,7 @@ object API {
                 val scpExchangeRates = mutableMapOf<String, Double>()
                 if(jsonObject.has("scpPrice") && !jsonObject.get("scpPrice").isJsonNull) {
                     val usdPrice = jsonObject.get("scpPrice").asDouble
-                    scpExchangeRates["USD"] = usdPrice
+                    scpExchangeRates[Currency.DEFAULT_CURRENCY] = usdPrice
 
                     if(jsonObject.has("usdExchangeRates") && !jsonObject.get("usdExchangeRates").isJsonNull) {
                         val usdExchangeRates = jsonObject.get("usdExchangeRates").asJsonObject

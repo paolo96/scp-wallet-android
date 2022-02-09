@@ -58,6 +58,7 @@ class LaunchActivity : AppCompatActivity() {
     companion object {
         //TODO rename SP_FILE_SETTINGS value to 'settings' on next breaking release
         const val SP_FILE_SETTINGS = "server"
+        const val SP_CURRENCY = "currency"
         const val SP_HOST = "host"
     }
 

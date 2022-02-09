@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scp.wallet.R
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.scp.wallet.activities.donations.DonationsActivity
+import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.activities.receive.ReceiveActivity
 import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.send.SendActivity
@@ -268,6 +269,11 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                         walletsViewModel.updateWallet(id, intent.getByteArrayExtra(IE_WALLET_PWD))
                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
                     }
+                }
+
+                val newCurrency = getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, MODE_PRIVATE).getString(LaunchActivity.SP_CURRENCY, Currency.DEFAULT_CURRENCY)
+                if(newCurrency != walletsViewModel.currency.value) {
+                    walletsViewModel.currency.value = newCurrency
                 }
             }
         }

@@ -2,6 +2,8 @@ package com.scp.wallet.utils
 
 object Currency {
 
+    const val DEFAULT_CURRENCY = "USD"
+
     private val supportedCurrencies = arrayOf(
         Pair("USD","$"),
         Pair("EUR","€"),
