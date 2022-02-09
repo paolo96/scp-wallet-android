@@ -21,15 +21,14 @@ import com.scp.wallet.activities.donations.DonationsActivity
 import com.scp.wallet.activities.receive.ReceiveActivity
 import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.send.SendActivity
-import com.scp.wallet.activities.send.SendActivity.Companion.IE_SCP_FIAT
 import com.scp.wallet.activities.send.SendActivity.Companion.IE_TRANSACTION_FEE
 import com.scp.wallet.activities.settings.SettingsActivity
 import com.scp.wallet.activities.walletsettings.WalletSettingsActivity
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
 import java.math.BigInteger
 
 class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
@@ -143,7 +142,14 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
             }
         }
 
-        walletsViewModel.scpPrice.observe(this) {
+        walletsViewModel.scpExchangeRates.observe(this) {
+            walletsViewModel.updateWalletsFiatBalance()
+            walletsViewModel.wallets.value?.let { wallets ->
+                walletsAdapter.notifyItemRangeChanged(0, wallets.size)
+            }
+        }
+
+        walletsViewModel.currency.observe(this) {
             walletsViewModel.updateWalletsFiatBalance()
             walletsViewModel.wallets.value?.let { wallets ->
                 walletsAdapter.notifyItemRangeChanged(0, wallets.size)
@@ -420,9 +426,12 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         val i = Intent(this, SendActivity::class.java)
         i.putExtra(IE_WALLET_ID, w.id)
         i.putExtra(IE_WALLET_PWD, w.getPassword())
-        walletsViewModel.scpPrice.value?.let { scpPrice ->
-            if(scpPrice > 0) {
-                i.putExtra(IE_SCP_FIAT, scpPrice)
+        walletsViewModel.currency.value?.let { currency ->
+            walletsViewModel.scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                if(scpPrice > 0) {
+                    i.putExtra(SendActivity.IE_SCP_FIAT, scpPrice)
+                    i.putExtra(SendActivity.IE_SCP_FIAT_SYMBOL, Currency.getSymbol(currency))
+                }
             }
         }
         walletsViewModel.transactionFee.value?.let { transactionFee ->

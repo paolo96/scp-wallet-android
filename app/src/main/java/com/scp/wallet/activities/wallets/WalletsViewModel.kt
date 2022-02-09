@@ -4,20 +4,13 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.exceptions.ApiException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.Transaction
-import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.wallet.Wallet
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.System.exit
-import java.lang.ref.WeakReference
 import java.math.BigInteger
-import kotlin.concurrent.thread
 
 class WalletsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,20 +18,25 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
         value = restoreWallets()
     }
 
+    val currency = MutableLiveData<String>().apply {
+        value = restoreCurrency()
+    }
+
     val transactions = MutableLiveData<Pair<Wallet?, ArrayList<Transaction>>>().apply {
         value = Pair(null, arrayListOf())
     }
 
+
     val consensusHeight = MutableLiveData<Int>()
-    val scpPrice = MutableLiveData<Double>()
+    val scpExchangeRates = MutableLiveData<Map<String, Double>>()
     val transactionFee = MutableLiveData<CurrencyValue>()
 
     //Updates consensusHeight and scp fiat price
     fun updateScprimeData(callback: (() -> Unit)? = null) {
 
-        API.getScprimeData({ cHeight, minFee, maxFee, scpUsd  ->
+        API.getScprimeData({ cHeight, minFee, maxFee, exchangeRates  ->
             if(consensusHeight.value != cHeight) consensusHeight.value = cHeight
-            if(scpPrice.value != scpUsd) scpPrice.value = scpUsd
+            if(scpExchangeRates.value != exchangeRates) scpExchangeRates.value = exchangeRates
             val fee = Transaction.fee(minFee, maxFee)
             if(transactionFee.value?.value != fee.value) transactionFee.value = fee
             callback?.let { it() }
@@ -61,8 +59,10 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
     fun updateWallet(id: String, password: ByteArray?) {
         wallets.value?.find { it.id == id }?.let {  wallet ->
             wallet.updateDataFromStorage()
-            scpPrice.value?.let { scpPrice ->
-                wallet.updateFiatBalance(scpPrice)
+            currency.value?.let { currency ->
+                scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                    wallet.updateFiatBalance(Pair(currency, scpPrice))
+                }
             }
             password?.let { walletPassword ->
                 wallet.unlockWithKey(walletPassword)
@@ -71,9 +71,11 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun updateWalletsFiatBalance() {
-        scpPrice.value?.let { scpPrice ->
-            wallets.value?.forEach {
-                it.updateFiatBalance(scpPrice)
+        currency.value?.let { currency ->
+            scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                wallets.value?.forEach {
+                    it.updateFiatBalance(Pair(currency, scpPrice))
+                }
             }
         }
     }
@@ -84,6 +86,16 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
         val sp = app.getSharedPreferences(WalletsActivity.SP_WALLETS_IDS, AppCompatActivity.MODE_PRIVATE)
         sp.getStringSet(WalletsActivity.SP_WALLETS_IDS, mutableSetOf())?.forEach {
             result.add(Wallet(it, app))
+        }
+        return result
+    }
+
+    private fun restoreCurrency() : String {
+        var result = "USD"
+        val app = getApplication<Application>()
+        val sp = app.getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, AppCompatActivity.MODE_PRIVATE)
+        sp.getString(LaunchActivity.SP_FILE_SETTINGS, result)?.let {
+            result = it
         }
         return result
     }
@@ -119,8 +131,10 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
                 if(result) {
                     val newTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
                     transactionsBlocksPassed(newTransactions)
-                    scpPrice.value?.let { scpPrice ->
-                        currentWallet.updateFiatBalance(scpPrice)
+                    currency.value?.let { currency ->
+                        scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                            currentWallet.updateFiatBalance(Pair(currency, scpPrice))
+                        }
                     }
                     transactions.postValue(Pair(currentWallet, ArrayList(newTransactions)))
                     callback?.let { it() }

@@ -20,7 +20,7 @@ class LaunchActivity : AppCompatActivity() {
         binding = ActivityLaunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val serverSP = getSharedPreferences(SP_FILE_SERVER, MODE_PRIVATE)
+        val serverSP = getSharedPreferences(SP_FILE_SETTINGS, MODE_PRIVATE)
         val host = serverSP.getString(SP_HOST, null)
         if(host == null) {
             val pickedHost = API.TRUSTED_HOSTS.random()
@@ -56,7 +56,8 @@ class LaunchActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val SP_FILE_SERVER = "server"
+        //TODO rename SP_FILE_SETTINGS value to 'settings' on next breaking release
+        const val SP_FILE_SETTINGS = "server"
         const val SP_HOST = "host"
     }
 

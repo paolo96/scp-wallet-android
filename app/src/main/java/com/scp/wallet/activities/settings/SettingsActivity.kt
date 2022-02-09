@@ -10,6 +10,7 @@ import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.databinding.ActivitySettingsBinding
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Currency
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -30,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.settingsServer.setText(API.host)
 
-        ArrayAdapter.createFromResource(this, R.array.currencies_array, R.layout.spinner_item_selected).also { adapter ->
+        ArrayAdapter(this, R.layout.spinner_item_selected, Currency.getCurrencies()).also { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_item)
             binding.spinnerCurrency.adapter = adapter
         }
@@ -45,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
                 Popup.showChoice("Do you want to change server?", "Make sure that you're using a trusted server or your own server. Although the server doesn't have access to the wallets seed, a malicious attacker could display false transactions data and cause severe consequences as a result. Furthermore your current wallets could be missing some transactions after this change, you should import them again after the change.", this) { result ->
 
                     if(result) {
-                        val sp = getSharedPreferences(LaunchActivity.SP_FILE_SERVER, MODE_PRIVATE)
+                        val sp = getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, MODE_PRIVATE)
                         sp.edit().putString(LaunchActivity.SP_HOST, newHost).apply()
 
                         val i = Intent(this, LaunchActivity::class.java)
