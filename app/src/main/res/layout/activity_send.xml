@@ -76,7 +76,6 @@
         android:textColor="@color/white_secondary"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="$0"
         app:layout_constraintEnd_toEndOf="@+id/sendAmount"
         app:layout_constraintStart_toStartOf="@+id/sendAmount"
         app:layout_constraintTop_toBottomOf="@+id/sendAmount" />

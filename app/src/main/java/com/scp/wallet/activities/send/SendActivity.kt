@@ -18,6 +18,7 @@ import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.utils.Android
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class SendActivity : AppCompatActivity() {
     private lateinit var wallet: Wallet
 
     private var scpFiat: Double? = null
+    private var fiatSymbol: String? = null
     private var currencyScp = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,7 @@ class SendActivity : AppCompatActivity() {
 
             val value = intent.getDoubleExtra(IE_SCP_FIAT, -1.0)
             scpFiat = if(value <= 0) null else value
+            fiatSymbol = intent.getStringExtra(IE_SCP_FIAT_SYMBOL)
 
             initResultRequests()
             initViews()
@@ -63,7 +66,10 @@ class SendActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-        if(scpFiat == null) binding.sendAmountOtherCurrency.visibility = View.GONE
+        if(scpFiat == null) binding.sendAmountOtherCurrency.visibility = View.GONE else {
+            val amountText = "${fiatSymbol}0"
+            binding.sendAmountOtherCurrency.text = amountText
+        }
 
         intent.getStringExtra(ScanActivity.IE_ADDRESS)?.let { prefilledAddress ->
             binding.sendAddress.setText(prefilledAddress)
@@ -74,6 +80,7 @@ class SendActivity : AppCompatActivity() {
             val feeText = "Miners fee ${minersFee.toScpReadable()}"
             binding.sendTransactionFees.text = feeText
         }
+
 
     }
 
@@ -203,7 +210,7 @@ class SendActivity : AppCompatActivity() {
                 binding.sendAmount.setText(usdValue)
             }
         }
-        binding.sendAmountCurrency.text = if(currencyScp) "SCP" else "$"
+        binding.sendAmountCurrency.text = if(currencyScp) "SCP" else fiatSymbol
         updateOtherCurrencyValue()
 
     }
@@ -212,7 +219,7 @@ class SendActivity : AppCompatActivity() {
         scpFiat?.let { scpFiatValue ->
             val value = binding.sendAmount.text.toString().toDoubleOrNull() ?: 0.0
             if(currencyScp) {
-                val usdValue = "\$${"%.2f".format(value*scpFiatValue).replace(".00", "")}"
+                val usdValue = "${fiatSymbol}${"%.2f".format(value*scpFiatValue).replace(".00", "")}"
                 binding.sendAmountOtherCurrency.text = usdValue
             } else {
                 val scpValue = CurrencyValue.initFromDouble(value/scpFiatValue).toScpReadable()
