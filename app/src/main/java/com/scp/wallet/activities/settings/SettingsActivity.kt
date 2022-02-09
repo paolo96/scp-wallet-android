@@ -36,6 +36,12 @@ class SettingsActivity : AppCompatActivity() {
         ArrayAdapter(this, R.layout.spinner_item_selected, Currency.getCurrencies()).also { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_item)
             binding.spinnerCurrency.adapter = adapter
+
+            val currCurrency = getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, MODE_PRIVATE).getString(LaunchActivity.SP_CURRENCY, Currency.DEFAULT_CURRENCY)
+            val currCurrencyIndex = Currency.getCurrencies().indexOfFirst { it == currCurrency }
+            if(currCurrencyIndex != -1) {
+                binding.spinnerCurrency.setSelection(currCurrencyIndex)
+            }
         }
 
     }

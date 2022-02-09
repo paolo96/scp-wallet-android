@@ -43,7 +43,7 @@ object API {
                         for (currency in usdExchangeRates.keySet()) {
                             for (supportedCurrency in Currency.getCurrencies()) {
                                 if(currency == supportedCurrency) {
-                                    scpExchangeRates[supportedCurrency] = usdPrice/usdExchangeRates[currency].asDouble
+                                    scpExchangeRates[supportedCurrency] = usdPrice*usdExchangeRates[currency].asDouble
                                     break
                                 }
                             }
