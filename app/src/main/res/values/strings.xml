@@ -1,3 +1,18 @@
 <resources>
+    <string-array name="currencies_array">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>GBP</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>HKD</item>
+        <item>NZD</item>
+        <item>SEK</item>
+        <item>INR</item>
+    </string-array>
+
     <string name="app_name">SCP Wallet</string>
 </resources>

@@ -18,18 +18,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scp.wallet.R
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.scp.wallet.activities.donations.DonationsActivity
+import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.activities.receive.ReceiveActivity
 import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.send.SendActivity
-import com.scp.wallet.activities.send.SendActivity.Companion.IE_SCP_FIAT
 import com.scp.wallet.activities.send.SendActivity.Companion.IE_TRANSACTION_FEE
 import com.scp.wallet.activities.settings.SettingsActivity
 import com.scp.wallet.activities.walletsettings.WalletSettingsActivity
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
 import java.math.BigInteger
 
 class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
@@ -110,33 +110,47 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         }
 
         walletsViewModel.transactions.observe(this) {
-            transactionsAdapter.submitList(it)
 
-            binding.walletTransactionsRecycler.post {
-                val walletIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+            val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+            val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+            if(currentWallet != null && it.first?.id == currentWallet.id) {
 
-                if(it.size == 0 && walletsViewModel.wallets.value?.size != walletIndex) {
-                    binding.walletsNoTransactions.visibility = View.VISIBLE
-                    binding.walletsNoTransactions.animate().alpha(1f)
-                    binding.walletTransactionsRecycler.animate().alpha(0f)
-                } else {
-                    walletsAdapter.notifyItemChanged(walletIndex)
-                    binding.walletsNoTransactions.animate().alpha(0f).withEndAction {
-                        binding.walletsNoTransactions.visibility = View.GONE
-                        binding.walletTransactionsRecycler.animate().alpha(1f)
+                transactionsAdapter.submitList(it.second)
+
+                binding.walletTransactionsRecycler.post {
+                    val walletIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+
+                    if(it.second.size == 0 && walletsViewModel.wallets.value?.size != walletIndex) {
+                        binding.walletsNoTransactions.visibility = View.VISIBLE
+                        binding.walletsNoTransactions.animate().alpha(1f)
+                        binding.walletTransactionsRecycler.animate().alpha(0f)
+                    } else {
+                        walletsAdapter.notifyItemChanged(walletIndex)
+                        binding.walletsNoTransactions.animate().alpha(0f).withEndAction {
+                            binding.walletsNoTransactions.visibility = View.GONE
+                            binding.walletTransactionsRecycler.animate().alpha(1f)
+                        }
                     }
                 }
+
             }
         }
 
         walletsViewModel.consensusHeight.observe(this) {
             walletsViewModel.transactions.value?.let { transactions ->
-                walletsViewModel.transactionsBlocksPassed(transactions)
+                walletsViewModel.transactionsBlocksPassed(transactions.second)
                 walletsViewModel.transactions.value = transactions
             }
         }
 
-        walletsViewModel.scpPrice.observe(this) {
+        walletsViewModel.scpExchangeRates.observe(this) {
+            walletsViewModel.updateWalletsFiatBalance()
+            walletsViewModel.wallets.value?.let { wallets ->
+                walletsAdapter.notifyItemRangeChanged(0, wallets.size)
+            }
+        }
+
+        walletsViewModel.currency.observe(this) {
             walletsViewModel.updateWalletsFiatBalance()
             walletsViewModel.wallets.value?.let { wallets ->
                 walletsAdapter.notifyItemRangeChanged(0, wallets.size)
@@ -219,21 +233,28 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
     private fun refresh() {
 
-        val anim = ObjectAnimator.ofFloat(binding.walletTransactionsRefresh, "rotation", 0f, 360f).apply {
-            duration = 500
-            repeatMode = ValueAnimator.RESTART
-        }
-        anim.repeatCount = Animation.INFINITE
-        anim.start()
-        binding.walletTransactionsRefresh.isClickable = false
-        walletsViewModel.updateTransactionsAndScprimeData(WeakReference(walletsAdapter), WeakReference(walletsLayoutManager)) {
-            anim.repeatCount = 0
+        val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+        val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+        if (currentWallet != null) {
 
-            lifecycleScope.launch {
-                delay(1000)
-                runOnUiThread {
-                    binding.walletTransactionsRefresh.isClickable = true
+            val anim = ObjectAnimator.ofFloat(binding.walletTransactionsRefresh, "rotation", 0f, 360f).apply {
+                duration = 500
+                repeatMode = ValueAnimator.RESTART
+            }
+            anim.repeatCount = Animation.INFINITE
+            anim.start()
+            binding.walletTransactionsRefresh.isClickable = false
+
+            walletsViewModel.updateTransactionsAndScprimeData(currentWallet) {
+                anim.repeatCount = 0
+
+                lifecycleScope.launch {
+                    delay(1000)
+                    runOnUiThread {
+                        binding.walletTransactionsRefresh.isClickable = true
+                    }
                 }
+
             }
 
         }
@@ -248,6 +269,11 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                         walletsViewModel.updateWallet(id, intent.getByteArrayExtra(IE_WALLET_PWD))
                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
                     }
+                }
+
+                val newCurrency = getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, MODE_PRIVATE).getString(LaunchActivity.SP_CURRENCY, Currency.DEFAULT_CURRENCY)
+                if(newCurrency != walletsViewModel.currency.value) {
+                    walletsViewModel.currency.value = newCurrency
                 }
             }
         }
@@ -329,8 +355,14 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
             if(walletsLayoutManager.findFirstVisibleItemPosition() == wallets.size) {
                 toggleAddWalletUI(true)
             } else {
-                walletsViewModel.updateTransactions(WeakReference(walletsAdapter), WeakReference(walletsLayoutManager))
+
+                val currentIndex = walletsLayoutManager.findFirstVisibleItemPosition()
+                val currentWallet = walletsAdapter.currentList.getOrNull(currentIndex)
+                if (currentWallet != null) {
+                    walletsViewModel.updateTransactions(currentWallet)
+                }
                 toggleAddWalletUI(false)
+
             }
         }
     }
@@ -400,9 +432,12 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         val i = Intent(this, SendActivity::class.java)
         i.putExtra(IE_WALLET_ID, w.id)
         i.putExtra(IE_WALLET_PWD, w.getPassword())
-        walletsViewModel.scpPrice.value?.let { scpPrice ->
-            if(scpPrice > 0) {
-                i.putExtra(IE_SCP_FIAT, scpPrice)
+        walletsViewModel.currency.value?.let { currency ->
+            walletsViewModel.scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                if(scpPrice > 0) {
+                    i.putExtra(SendActivity.IE_SCP_FIAT, scpPrice)
+                    i.putExtra(SendActivity.IE_SCP_FIAT_SYMBOL, Currency.getSymbol(currency))
+                }
             }
         }
         walletsViewModel.transactionFee.value?.let { transactionFee ->

@@ -4,20 +4,14 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.exceptions.ApiException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.Transaction
-import com.scp.wallet.scp.UnlockHash
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.System.exit
-import java.lang.ref.WeakReference
 import java.math.BigInteger
-import kotlin.concurrent.thread
 
 class WalletsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,20 +19,25 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
         value = restoreWallets()
     }
 
-    val transactions = MutableLiveData<ArrayList<Transaction>>().apply {
-        value = arrayListOf()
+    val currency = MutableLiveData<String>().apply {
+        value = restoreCurrency()
     }
 
+    val transactions = MutableLiveData<Pair<Wallet?, ArrayList<Transaction>>>().apply {
+        value = Pair(null, arrayListOf())
+    }
+
+
     val consensusHeight = MutableLiveData<Int>()
-    val scpPrice = MutableLiveData<Double>()
+    val scpExchangeRates = MutableLiveData<Map<String, Double>>()
     val transactionFee = MutableLiveData<CurrencyValue>()
 
     //Updates consensusHeight and scp fiat price
     fun updateScprimeData(callback: (() -> Unit)? = null) {
 
-        API.getScprimeData({ cHeight, minFee, maxFee, scpUsd  ->
+        API.getScprimeData({ cHeight, minFee, maxFee, exchangeRates  ->
             if(consensusHeight.value != cHeight) consensusHeight.value = cHeight
-            if(scpPrice.value != scpUsd) scpPrice.value = scpUsd
+            if(scpExchangeRates.value != exchangeRates) scpExchangeRates.value = exchangeRates
             val fee = Transaction.fee(minFee, maxFee)
             if(transactionFee.value?.value != fee.value) transactionFee.value = fee
             callback?.let { it() }
@@ -61,8 +60,10 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
     fun updateWallet(id: String, password: ByteArray?) {
         wallets.value?.find { it.id == id }?.let {  wallet ->
             wallet.updateDataFromStorage()
-            scpPrice.value?.let { scpPrice ->
-                wallet.updateFiatBalance(scpPrice)
+            currency.value?.let { currency ->
+                scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                    wallet.updateFiatBalance(Pair(currency, scpPrice))
+                }
             }
             password?.let { walletPassword ->
                 wallet.unlockWithKey(walletPassword)
@@ -71,9 +72,11 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun updateWalletsFiatBalance() {
-        scpPrice.value?.let { scpPrice ->
-            wallets.value?.forEach {
-                it.updateFiatBalance(scpPrice)
+        currency.value?.let { currency ->
+            scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                wallets.value?.forEach {
+                    it.updateFiatBalance(Pair(currency, scpPrice))
+                }
             }
         }
     }
@@ -88,11 +91,21 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
         return result
     }
 
+    private fun restoreCurrency() : String {
+        var result = Currency.DEFAULT_CURRENCY
+        val app = getApplication<Application>()
+        val sp = app.getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, AppCompatActivity.MODE_PRIVATE)
+        sp.getString(LaunchActivity.SP_CURRENCY, result)?.let {
+            result = it
+        }
+        return result
+    }
+
     //Updates current displayed wallet transactions and scprime data and calls the callback
     //when both have finished
-    fun updateTransactionsAndScprimeData(walletsAdapter: WeakReference<WalletsAdapter>, walletsLayoutManager: WeakReference<LinearLayoutManager>, callback: (() -> Unit)? = null) {
+    fun updateTransactionsAndScprimeData(currentWallet: Wallet, callback: (() -> Unit)? = null) {
         var firstCallDone = false
-        updateTransactions(walletsAdapter, walletsLayoutManager) {
+        updateTransactions(currentWallet) {
             if(firstCallDone) {
                 callback?.let { it() }
             } else {
@@ -110,41 +123,27 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
 
     //Updates transactions with the ones the wallet currently owns, then it sends an API request
     //to get the most recent transactions and it updates only if the activity is still there
-    fun updateTransactions(walletsAdapter: WeakReference<WalletsAdapter>, walletsLayoutManager: WeakReference<LinearLayoutManager>, callback: (() -> Unit)? = null) {
-        val currentIndex = walletsLayoutManager.get()?.findFirstVisibleItemPosition()
-        if(currentIndex != null) {
-            val currentWallet = walletsAdapter.get()?.currentList?.getOrNull(currentIndex)
-            if(currentWallet == null) {
-                transactions.value = arrayListOf()
-                callback?.let { it() }
-            } else {
-                val currTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
-                transactionsBlocksPassed(currTransactions)
-                transactions.value = ArrayList(currTransactions)
-                try {
-                    currentWallet.downloadWalletData { result ->
-                        if(result) {
-                            val newPosition = walletsLayoutManager.get()?.findFirstVisibleItemPosition()
-                            if(newPosition == currentIndex && walletsAdapter.get()?.currentList?.getOrNull(newPosition)?.id == currentWallet.id) {
-                                val newTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
-                                transactionsBlocksPassed(newTransactions)
-                                scpPrice.value?.let { scpPrice ->
-                                    currentWallet.updateFiatBalance(scpPrice)
-                                }
-                                transactions.postValue(ArrayList(newTransactions))
-                                callback?.let { it() }
-                            } else {
-                                callback?.let { it() }
-                            }
-                        } else {
-                            callback?.let { it() }
+    fun updateTransactions(currentWallet: Wallet, callback: (() -> Unit)? = null) {
+        val currTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
+        transactionsBlocksPassed(currTransactions)
+        transactions.value = Pair(currentWallet, ArrayList(currTransactions))
+        try {
+            currentWallet.downloadWalletData { result ->
+                if(result) {
+                    val newTransactions = currentWallet.getTransactions().filter { it.walletValue != null && it.walletValue?.value != BigInteger.ZERO }
+                    transactionsBlocksPassed(newTransactions)
+                    currency.value?.let { currency ->
+                        scpExchangeRates.value?.get(currency)?.let { scpPrice ->
+                            currentWallet.updateFiatBalance(Pair(currency, scpPrice))
                         }
                     }
-                } catch (e: ApiException) {
+                    transactions.postValue(Pair(currentWallet, ArrayList(newTransactions)))
+                    callback?.let { it() }
+                } else {
                     callback?.let { it() }
                 }
             }
-        } else {
+        } catch (e: ApiException) {
             callback?.let { it() }
         }
     }

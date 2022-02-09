@@ -14,6 +14,7 @@ import com.scp.wallet.databinding.ListItemWalletBinding
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.utils.Dates
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 
 class WalletsAdapter : ListAdapter<Wallet, RecyclerView.ViewHolder>(WalletsDiffCallback()) {
@@ -66,7 +67,7 @@ class WalletsAdapter : ListAdapter<Wallet, RecyclerView.ViewHolder>(WalletsDiffC
             binding.itemWalletBalance.text = balanceText
 
             item.getFiatBalance()?.let { fiatBalance ->
-                val fiatBalanceText = "\$${"%.2f".format(fiatBalance).replace(".00", "")}"
+                val fiatBalanceText = "${Currency.getSymbol(fiatBalance.first)}${"%.2f".format(fiatBalance.second).replace(".00", "")}"
                 binding.itemWalletBalanceFiat.text = fiatBalanceText
             }
 

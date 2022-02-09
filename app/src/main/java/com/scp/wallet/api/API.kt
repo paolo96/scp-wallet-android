@@ -6,6 +6,7 @@ import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.*
 import java.math.BigInteger
 import com.scp.wallet.scp.*
+import com.scp.wallet.utils.Currency
 import com.scp.wallet.utils.Hex
 
 
@@ -27,22 +28,34 @@ object API {
         return "$host/$VERSION"
     }
     
-    fun getScprimeData(callback: (consensusHeight: Int, minFee: BigInteger, maxFee: BigInteger, scpUsd: Double?) -> Unit, callbackErr: (Int?) -> Unit) {
+    fun getScprimeData(callback: (consensusHeight: Int, minFee: BigInteger, maxFee: BigInteger, scpUsd: Map<String, Double>) -> Unit, callbackErr: (Int?) -> Unit) {
 
         getRequest("${getEndpoint()}/scprime/data", null, { jsonObject ->
 
             try {
-                val scpUsd = if(jsonObject.get("scpPrice").isJsonNull) {
-                    null
-                } else {
-                    jsonObject.get("scpPrice").asDouble
+                val scpExchangeRates = mutableMapOf<String, Double>()
+                if(jsonObject.has("scpPrice") && !jsonObject.get("scpPrice").isJsonNull) {
+                    val usdPrice = jsonObject.get("scpPrice").asDouble
+                    scpExchangeRates[Currency.DEFAULT_CURRENCY] = usdPrice
+
+                    if(jsonObject.has("usdExchangeRates") && !jsonObject.get("usdExchangeRates").isJsonNull) {
+                        val usdExchangeRates = jsonObject.get("usdExchangeRates").asJsonObject
+                        for (currency in usdExchangeRates.keySet()) {
+                            for (supportedCurrency in Currency.getCurrencies()) {
+                                if(currency == supportedCurrency) {
+                                    scpExchangeRates[supportedCurrency] = usdPrice*usdExchangeRates[currency].asDouble
+                                    break
+                                }
+                            }
+                        }
+                    }
                 }
 
                 val networkData = jsonObject.get("networkData").asJsonObject
                 val consensusHeight = networkData.get("consensusHeight").asInt
                 val minFee = networkData.get("minFee").asBigInteger
                 val maxFee = networkData.get("maxFee").asBigInteger
-                callback(consensusHeight, minFee, maxFee, scpUsd)
+                callback(consensusHeight, minFee, maxFee, scpExchangeRates)
             } catch (e: JsonParseException) {
                 callbackErr(null)
             }

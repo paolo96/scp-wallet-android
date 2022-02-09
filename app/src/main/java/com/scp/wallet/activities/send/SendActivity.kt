@@ -239,6 +239,7 @@ class SendActivity : AppCompatActivity() {
 
     companion object {
         const val IE_SCP_FIAT = "scp-fiat"
+        const val IE_SCP_FIAT_SYMBOL = "scp-fiat-symbol"
         const val IE_TRANSACTION_FEE = "transaction-fee"
     }
 

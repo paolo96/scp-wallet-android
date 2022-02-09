@@ -36,7 +36,7 @@ class Wallet(val id: String, context: Context) {
     private var transactions: MutableList<Transaction> = dataAccess.getTransactions().toMutableList()
     private var keys: MutableList<SpendableKey> = dataAccess.getAddresses().toMutableList()
 
-    private var fiatBalance: Double? = null
+    private var fiatBalance: Pair<String, Double>? = null
 
     fun updateDataFromStorage() {
         name = dataAccess.getName()
@@ -240,11 +240,12 @@ class Wallet(val id: String, context: Context) {
 
         val sameName = other.name == this.name
         val sameBalance = other.getBalance().value == this.getBalance().value
+        val sameFiatBalance = other.getFiatBalance() == this.getFiatBalance()
 
         val oldSeed = other.getSeed()
         val newSeed = this.getSeed()
         val sameSeed = oldSeed.contentEquals(newSeed)
-        if(!sameName || !sameBalance || !sameSeed) return false
+        if(!sameName || !sameBalance || !sameSeed || !sameFiatBalance) return false
 
         var addressesSame = true
         val oldKeys = other.getKeys()
@@ -305,7 +306,7 @@ class Wallet(val id: String, context: Context) {
         return dataAccess.getProgress()
     }
 
-    fun getFiatBalance() : Double? {
+    fun getFiatBalance() : Pair<String, Double>? {
         return fiatBalance
     }
 
@@ -322,9 +323,9 @@ class Wallet(val id: String, context: Context) {
         dataAccess.updateName(newName)
     }
 
-    fun updateFiatBalance(scpPrice: Double) {
-        if(scpPrice > 0) {
-            fiatBalance = ((getBalance().value / CurrencyValue.COIN_PRECISION_CENTS).toDouble()/100.0)*scpPrice
+    fun updateFiatBalance(value: Pair<String, Double>) {
+        if(value.second > 0) {
+            fiatBalance = Pair(value.first, ((getBalance().value / CurrencyValue.COIN_PRECISION_CENTS).toDouble()/100.0)*value.second)
         }
     }
 
