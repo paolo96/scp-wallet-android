@@ -71,9 +71,8 @@ class SettingsActivity : AppCompatActivity() {
 
                 }
             } else {
-                val i = Intent(this, LaunchActivity::class.java)
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                this.startActivity(i)
+                setResult(RESULT_OK, Intent())
+                finish()
             }
         }
 

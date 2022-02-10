@@ -37,6 +37,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
     private lateinit var binding: ActivityWalletsBinding
 
     private lateinit var resultRequestScan: ActivityResultLauncher<Intent>
+    private lateinit var resultRequestWalletSettings: ActivityResultLauncher<Intent>
     private lateinit var resultRequestSettings: ActivityResultLauncher<Intent>
     private lateinit var resultRequestReceive: ActivityResultLauncher<Intent>
     private lateinit var resultRequestSend: ActivityResultLauncher<Intent>
@@ -210,7 +211,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         binding.customActionBar.actionBarExtra.setOnClickListener {
 
             val i = Intent(this, SettingsActivity::class.java)
-            this.startActivity(i)
+            resultRequestSettings.launch(i)
 
         }
 
@@ -262,7 +263,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
     private fun initResultRequests() {
 
-        resultRequestSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        resultRequestWalletSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 result.data?.let { intent ->
                     intent.getStringExtra(IE_WALLET_ID)?.let { id ->
@@ -270,7 +271,11 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
                     }
                 }
+            }
+        }
 
+        resultRequestSettings = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
                 val newCurrency = getSharedPreferences(LaunchActivity.SP_FILE_SETTINGS, MODE_PRIVATE).getString(LaunchActivity.SP_CURRENCY, Currency.DEFAULT_CURRENCY)
                 if(newCurrency != walletsViewModel.currency.value) {
                     walletsViewModel.currency.value = newCurrency
@@ -423,7 +428,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         val i = Intent(binding.root.context, WalletSettingsActivity::class.java)
         i.putExtra(IE_WALLET_ID, w.id)
         i.putExtra(IE_WALLET_PWD, w.getPassword())
-        resultRequestSettings.launch(i)
+        resultRequestWalletSettings.launch(i)
 
     }
 
