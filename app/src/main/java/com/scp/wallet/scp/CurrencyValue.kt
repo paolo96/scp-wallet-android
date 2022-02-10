@@ -37,24 +37,24 @@ class CurrencyValue(var value: BigInteger) {
             "$sign${scpValue.roundToLong()} SCP"
         } else if(absValue >= COIN_PRECISION*BigInteger("100")) {
             val scpValue: Double = ((absValue * BigInteger.valueOf(1000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.1f".format(scpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} SCP"
+            "$sign${"%.1f".format(scpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} SCP"
         } else if(absValue >= COIN_PRECISION*BigInteger("10")) {
             val scpValue: Double = ((absValue * BigInteger.valueOf(1000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.2f".format(scpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} SCP"
+            "$sign${"%.2f".format(scpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} SCP"
         } else if(absValue >= COIN_PRECISION) {
             val scpValue: Double = ((absValue * BigInteger.valueOf(1000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.3f".format(scpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} SCP"
+            "$sign${"%.3f".format(scpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} SCP"
         } else if(absValue == BigInteger.ZERO) {
             "0 SCP"
         } else if(absValue >= COIN_PRECISION/BigInteger("1000")) {
             val milliScpValue = ((absValue * BigInteger.valueOf(1000000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.3f".format(milliScpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} mSCP"
+            "$sign${"%.3f".format(milliScpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} mSCP"
         } else if(absValue >= COIN_PRECISION/BigInteger("1000000")) {
             val microScpValue = ((absValue * BigInteger.valueOf(1000000000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.3f".format(microScpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} uSCP"
+            "$sign${"%.3f".format(microScpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} uSCP"
         } else if(absValue >= COIN_PRECISION/BigInteger("1000000000")) {
             val nanoScpValue = ((absValue * BigInteger.valueOf(1000000000000) / COIN_PRECISION).toDouble() / 1000)
-            "$sign${"%.3f".format(nanoScpValue).replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")} nSCP"
+            "$sign${"%.3f".format(nanoScpValue).replace("0*$".toRegex(), "").replace("[\\.,]$".toRegex(), "")} nSCP"
         } else {
             "~0 SCP"
         }
