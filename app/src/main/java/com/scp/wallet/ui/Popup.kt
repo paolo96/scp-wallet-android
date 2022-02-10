@@ -32,8 +32,8 @@ object Popup {
         view.findViewById<TextView>(R.id.alertTitle).text = title
         view.findViewById<TextView>(R.id.alertDescription).text = message
         view.findViewById<Button>(R.id.alertButtonPositive).setOnClickListener {
-            callback?.let { it() }
             alert.dismiss()
+            callback?.let { it() }
         }
 
         alert.show()
@@ -55,8 +55,8 @@ object Popup {
         var positive = false
         view.findViewById<Button>(R.id.alertButtonPositive).setOnClickListener {
             positive = true
-            alert.dismiss()
             callback(true)
+            alert.dismiss()
         }
         view.findViewById<Button>(R.id.alertButtonNegative).setOnClickListener {
             alert.dismiss()
@@ -90,8 +90,8 @@ object Popup {
             try {
                 wallet.unlock(insertedPassword)
                 positive = true
-                alert.dismiss()
                 callback(true)
+                alert.dismiss()
             } catch (e: WrongWalletPasswordException) {
                 editPassword.setText("")
                 editPassword.hint = "Wrong password"
@@ -139,8 +139,8 @@ object Popup {
             try {
                 wallet.changePassword(insertedPassword, newEditPassword.text.toString())
                 positive = true
-                alert.dismiss()
                 callback(true)
+                alert.dismiss()
             } catch (e: WrongWalletPasswordException) {
                 editPassword.setText("")
                 editPassword.hint = "Wrong password"

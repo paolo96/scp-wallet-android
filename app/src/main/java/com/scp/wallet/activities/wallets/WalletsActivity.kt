@@ -25,8 +25,10 @@ import com.scp.wallet.activities.send.SendActivity
 import com.scp.wallet.activities.send.SendActivity.Companion.IE_TRANSACTION_FEE
 import com.scp.wallet.activities.settings.SettingsActivity
 import com.scp.wallet.activities.walletsettings.WalletSettingsActivity
+import com.scp.wallet.scp.*
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.utils.Currency
+import com.scp.wallet.utils.Hex
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -13,6 +13,7 @@ class Crypto(private var lazySodium: LazySodium) {
         const val ENTROPY_SIZE = 32
         const val HASH_SIZE = 32
         const val PK_SIZE = 32
+        const val ED25519_BYTES = 64
 
         const val XSALSA20_POLY1305_MACBYTES = 16
         const val XSALSA20_POLY1305_NONCEBYTES = 24
@@ -44,35 +45,35 @@ class Crypto(private var lazySodium: LazySodium) {
         if(entropy.size != ENTROPY_SIZE) {
             throw Exception("Entropy of wrong size when generating key pair: ${entropy.size}")
         }
-        return lazySodium.cryptoSignSeedKeypair(entropy)
+        return lazySodium.cryptoSignSeedKeypair(entropy.copyOf())
 
     }
 
     //Returns the public key for the given private key (Ed25519)
     fun publicKey(privateKey: ByteArray) : ByteArray {
         val publicKey = ByteArray(PK_SIZE)
-        lazySodium.cryptoSignEd25519SkToPk(publicKey, privateKey)
+        lazySodium.cryptoSignEd25519SkToPk(publicKey, privateKey.copyOf())
         return publicKey
     }
 
     //Signs a message using a private key
     fun signMessage(data: ByteArray, sk: ByteArray) : ByteArray {
-        val signedMessage = ByteArray(data.size + PK_SIZE)
-        lazySodium.cryptoSign(signedMessage, data, data.size.toLong(), sk)
+        val signedMessage = ByteArray(data.size + ED25519_BYTES)
+        lazySodium.cryptoSign(signedMessage, data.copyOf(), data.size.toLong(), sk.copyOf())
         return signedMessage
     }
 
     //Encrypts a message using XSALSA20 and POLY1305
     fun encryptMessage(message: ByteArray, nonce: ByteArray, key: ByteArray) : ByteArray {
         val encryptedMessage = ByteArray(XSALSA20_POLY1305_MACBYTES+message.size)
-        lazySodium.cryptoSecretBoxEasy(encryptedMessage, message, message.size.toLong(), nonce, key)
+        lazySodium.cryptoSecretBoxEasy(encryptedMessage, message.copyOf(), message.size.toLong(), nonce.copyOf(), key.copyOf())
         return encryptedMessage
     }
 
     //Decrypts message encrypted with encryptMessage
     fun decryptMessage(encryptedMessage: ByteArray, nonce: ByteArray, key: ByteArray) : ByteArray {
         val decryptedMessage = ByteArray(encryptedMessage.size*2)
-        if(lazySodium.cryptoSecretBoxOpenEasy(decryptedMessage, encryptedMessage, encryptedMessage.size.toLong(), nonce, key)) {
+        if(lazySodium.cryptoSecretBoxOpenEasy(decryptedMessage, encryptedMessage.copyOf(), encryptedMessage.size.toLong(), nonce.copyOf(), key.copyOf())) {
             val nonZeroIndex = decryptedMessage.indexOfLast { it != 0x00.toByte() }
             return decryptedMessage.take(nonZeroIndex+1).toByteArray()
         } else {
@@ -82,12 +83,12 @@ class Crypto(private var lazySodium: LazySodium) {
 
     //Encrypts a string message using XSALSA20 and POLY1305
     fun encryptMessageString(message: String, nonce: ByteArray, key: ByteArray) : String {
-        return lazySodium.cryptoSecretBoxEasy(message, nonce, Key.fromBytes(key))
+        return lazySodium.cryptoSecretBoxEasy(message, nonce.copyOf(), Key.fromBytes(key.copyOf()))
     }
 
     //Decrypts a string message encrypted with encryptMessage
     fun decryptMessageString(encryptedMessage: String, nonce: ByteArray, key: ByteArray) : String {
-        return lazySodium.cryptoSecretBoxOpenEasy(encryptedMessage, nonce, Key.fromBytes(key))
+        return lazySodium.cryptoSecretBoxOpenEasy(encryptedMessage, nonce.copyOf(), Key.fromBytes(key.copyOf()))
     }
 
 }
