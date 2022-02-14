@@ -50,34 +50,23 @@ class ImportWalletActivity : AppCompatActivity() {
 
             if(!potentialSeed.matches(Regex("[a-z\\n\\s;,]+"))) {
                 invalidSeed()
-                return@setOnClickListener
+            } else {
+                val seedSpaces = potentialSeed.replace("\\s+", " ").split(" ").filter { it != "\n" }
+                val seedNewlines = potentialSeed.replace(" ", "").split("\n").filter { it != "\n" }
+                val seedSemicolons = potentialSeed.replace(" ", "").split(";").filter { it != "\n" }
+                val seedCommas = potentialSeed.replace(" ", "").split(",").filter { it != "\n" }
+                if(seedSpaces.size == 28 || seedSpaces.size == 29) {
+                    importSeed(seedSpaces.joinToString(" "))
+                } else if(seedNewlines.size == 28 || seedNewlines.size == 29) {
+                    importSeed(seedNewlines.joinToString(" "))
+                } else if(seedSemicolons.size == 28 || seedSemicolons.size == 29) {
+                    importSeed(seedSemicolons.joinToString(" "))
+                } else if(seedCommas.size == 28 || seedCommas.size == 29) {
+                    importSeed(seedCommas.joinToString(" "))
+                } else {
+                    invalidSeed()
+                }
             }
-
-            var seed = potentialSeed.replace("\\s+", " ").split(" ").filter { it != "\n" }
-            if(seed.size == 29 || seed.size == 28) {
-                importSeed(seed.joinToString(" "))
-                return@setOnClickListener
-            }
-
-            seed = potentialSeed.replace(" ", "").split("\n").filter { it != "\n" }
-            if(seed.size == 29 || seed.size == 28) {
-                importSeed(seed.joinToString(" "))
-                return@setOnClickListener
-            }
-
-            seed = potentialSeed.replace(" ", "").split(";").filter { it != "\n" }
-            if(seed.size == 29 || seed.size == 28) {
-                importSeed(seed.joinToString(" "))
-                return@setOnClickListener
-            }
-
-            seed = potentialSeed.replace(" ", "").split(",").filter { it != "\n" }
-            if(seed.size == 29 || seed.size == 28) {
-                importSeed(seed.joinToString(" "))
-                return@setOnClickListener
-            }
-
-            invalidSeed()
 
         }
 
