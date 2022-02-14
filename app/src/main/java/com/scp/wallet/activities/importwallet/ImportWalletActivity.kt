@@ -110,7 +110,7 @@ class ImportWalletActivity : AppCompatActivity() {
             })
 
         } catch (e: InvalidSeedStringException) {
-            invalidSeed()
+            Popup.showSimple("Invalid seed", "Seed verification failed: ${e.message}", this)
         }
 
     }
