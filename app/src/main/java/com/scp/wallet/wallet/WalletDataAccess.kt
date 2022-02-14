@@ -95,6 +95,7 @@ class WalletDataAccess(walletId: String, context: Context) {
     @Throws(WrongWalletPasswordException::class)
     fun changeWalletKey(walletKey: ByteArray, newKey: ByteArray) {
         updateSeed(newKey, getSeed(walletKey), false)
+        updateKeys(newKey, getKeys(walletKey))
     }
 
     //Deletes everything stored

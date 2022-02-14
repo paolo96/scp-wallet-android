@@ -14,6 +14,7 @@ import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivitySendBinding
 import com.scp.wallet.exceptions.InvalidUnlockHashException
+import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.ui.Popup
@@ -47,7 +48,12 @@ class SendActivity : AppCompatActivity() {
         if(walletId != null && walletPwd != null) {
 
             wallet = Wallet(walletId, this)
-            wallet.unlockWithKey(walletPwd)
+            try {
+                wallet.unlockWithKey(walletPwd)
+            } catch (e: WrongWalletPasswordException) {
+                setResult(RESULT_CANCELED, Intent())
+                finish()
+            }
 
             val value = intent.getDoubleExtra(IE_SCP_FIAT, -1.0)
             scpFiat = if(value <= 0) null else value
