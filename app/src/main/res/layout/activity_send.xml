@@ -108,16 +108,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendAddressLabel" />
 
-    <TextView
-        android:id="@+id/sendTransactionFees"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/white_secondary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sendAddress" />
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sendAddressScan"
         android:layout_width="0dp"
@@ -131,13 +121,45 @@
         app:layout_constraintTop_toTopOf="@+id/sendAddress"
         app:layout_constraintEnd_toEndOf="@+id/sendAddress" />
 
+    <View
+        android:id="@+id/viewSeparator1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/white_secondary"
+        app:layout_constraintEnd_toEndOf="@+id/sendAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/sendAddress"
+        app:layout_constraintTop_toBottomOf="@+id/sendAddressScan" />
+
+    <TextView
+        android:id="@+id/sendWalletBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white_secondary"
+        android:padding="3dp"
+        app:layout_constraintStart_toStartOf="@+id/sendAddress"
+        app:layout_constraintEnd_toEndOf="@+id/sendAddress"
+        app:layout_constraintTop_toBottomOf="@+id/viewSeparator1" />
+
+    <TextView
+        android:id="@+id/sendTransactionFees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/white_secondary"
+        app:layout_constraintStart_toStartOf="@+id/sendAddress"
+        app:layout_constraintEnd_toEndOf="@+id/sendAddress"
+        app:layout_constraintTop_toBottomOf="@+id/sendWalletBalance" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sendButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_background_blue"
         android:clipToPadding="false"
         android:elevation="10dp"
