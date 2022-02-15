@@ -1,5 +1,5 @@
 # SCP Wallet Android
-SCP Wallet is lightweight [ScPrime](https://gitlab.com/scpcorp/ScPrime) wallet for Android.
+SCP Wallet is lightweight, privacy focused, open source [ScPrime](https://gitlab.com/scpcorp/ScPrime) wallet for Android.
 
 ## Get started
 You can build the APK from source or download the latest release.
