@@ -76,6 +76,28 @@ class CurrencyValue(var value: BigInteger) {
         return Bytes.intToInt64ByteArray(significantBytes) + valueBytesResult
     }
 
+    fun significantValueString() : String {
+        val valueDecimal = (value.toBigDecimal().divide(COIN_PRECISION.toBigDecimal())).toString()
+        val splitted = valueDecimal.split(".")
+        if(splitted.size == 2) {
+            var decimalsWithoutZeros = ""
+            var foundSignificant = false
+            for (d in splitted[1].reversed()) {
+                if(foundSignificant) {
+                    decimalsWithoutZeros += d
+                    continue
+                }
+                if(d != '0') {
+                    foundSignificant = true
+                    decimalsWithoutZeros += d
+                }
+            }
+            return splitted[0]+"."+decimalsWithoutZeros.reversed()
+        } else {
+            return valueDecimal
+        }
+    }
+
     operator fun plus(b: CurrencyValue): CurrencyValue {
         return CurrencyValue(value+b.value)
     }

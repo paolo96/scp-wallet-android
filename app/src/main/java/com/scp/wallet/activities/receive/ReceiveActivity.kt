@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivityReceiveBinding
 import com.scp.wallet.exceptions.WalletLockedException
+import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.ui.QRcode
@@ -54,7 +55,11 @@ class ReceiveActivity : AppCompatActivity() {
 
         wallet = Wallet(walletId, this)
         walletPwd?.let {
-            wallet.unlockWithKey(it)
+            try {
+                wallet.unlockWithKey(it)
+            } catch (e: WrongWalletPasswordException) {
+                wallet.lock()
+            }
         }
 
         val walletKeys = wallet.getKeys()

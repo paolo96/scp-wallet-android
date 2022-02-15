@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.exceptions.ApiException
+import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.Transaction
 import com.scp.wallet.utils.Currency
@@ -66,7 +67,11 @@ class WalletsViewModel(application: Application) : AndroidViewModel(application)
                 }
             }
             password?.let { walletPassword ->
-                wallet.unlockWithKey(walletPassword)
+                try {
+                    wallet.unlockWithKey(walletPassword)
+                } catch (e: WrongWalletPasswordException) {
+                    wallet.lock()
+                }
             }
         }
     }

@@ -32,10 +32,10 @@ class WalletHelper(private val dataAccess: WalletDataAccess) {
 
         for(c in str) {
             if(c.isUpperCase()) {
-                throw InvalidSeedStringException("Seed is not valid: all words must be lowercase")
+                throw InvalidSeedStringException("all words must be lowercase")
             }
             if(!c.isLetter() && !c.isWhitespace()) {
-                throw InvalidSeedStringException("Seed is not valid: illegal character $c")
+                throw InvalidSeedStringException("illegal character found '$c'")
             }
         }
 
@@ -44,15 +44,15 @@ class WalletHelper(private val dataAccess: WalletDataAccess) {
         if(dictID == null || Wallet.SUPPORTED_DICTIONARIES.contains(dictID)) {
 
             if(strArray.size != 28 && strArray.size != 29) {
-                throw InvalidSeedStringException("Seed is not valid: must be 28 or 29 words")
+                throw InvalidSeedStringException("seed length must be 28 or 29 words")
             }
 
             if(!str.matches(Regex("^([a-z]{4,12}){1}( {1}[a-z]{4,12}){27,28}$"))) {
-                throw InvalidSeedStringException("Seed is not valid: invalid formatting")
+                throw InvalidSeedStringException("invalid formatting")
             }
 
         } else {
-            throw InvalidSeedStringException("Seed is not valid: unsupported dictionary $dictID")
+            throw InvalidSeedStringException("unsupported dictionary $dictID")
         }
 
         val checksumSeedBytes = Dictionary.getDictionaryFromId(dictID).fromPhrase(strArray)
@@ -61,18 +61,19 @@ class WalletHelper(private val dataAccess: WalletDataAccess) {
             val seed = checksumSeedBytes.copyOf()
 
             if(checksumSeedBytes.size != 38) {
-                throw InvalidSeedStringException("Seed is not valid: illegal number of bytes ${checksumSeedBytes.size}")
+                throw InvalidSeedStringException("illegal number of bytes ${checksumSeedBytes.size}")
             }
 
-            val fullChecksum = crypto.blake2b(checksumSeedBytes)
+            val fullChecksum = crypto.blake2b(checksumSeedBytes.take(Crypto.ENTROPY_SIZE).toByteArray())
             if(checksumSeedBytes.size != Crypto.ENTROPY_SIZE + Wallet.SEED_CHECKSUM_SIZE
-                || fullChecksum.take(Wallet.SEED_CHECKSUM_SIZE) == checksumSeedBytes.takeLast(checksumSeedBytes.size - Crypto.ENTROPY_SIZE)) {
-                throw InvalidSeedStringException("Seed failed checksum verification")
+                || !fullChecksum.take(Wallet.SEED_CHECKSUM_SIZE).toByteArray().contentEquals(checksumSeedBytes.takeLast(checksumSeedBytes.size - Crypto.ENTROPY_SIZE).toByteArray())) {
+
+                throw InvalidSeedStringException("invalid checksum, check misspelled words")
             }
 
             return seed.take(checksumSeedBytes.size - Wallet.SEED_CHECKSUM_SIZE).toByteArray()
         }
-        throw InvalidSeedStringException("Seed is not valid: conversion to bytes failed")
+        throw InvalidSeedStringException("conversion to bytes failed")
 
     }
 

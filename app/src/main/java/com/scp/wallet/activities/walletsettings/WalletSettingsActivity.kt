@@ -12,6 +12,7 @@ import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_ID
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_PWD
 import com.scp.wallet.databinding.ActivityWalletSettingsBinding
+import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.wallet.Wallet
 
@@ -33,7 +34,11 @@ class WalletSettingsActivity : AppCompatActivity() {
 
             wallet = Wallet(walletId, this)
             walletPwd?.let {
-                wallet.unlockWithKey(it)
+                try {
+                    wallet.unlockWithKey(it)
+                } catch (e: WrongWalletPasswordException) {
+                    wallet.lock()
+                }
             }
 
             initViews()

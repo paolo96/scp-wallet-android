@@ -1,28 +1,35 @@
 package com.scp.wallet.activities.send
 
+import android.R.id.text2
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.scp.wallet.R
 import com.scp.wallet.activities.scan.ScanActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivitySendBinding
 import com.scp.wallet.exceptions.InvalidUnlockHashException
+import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.scp.CurrencyValue
 import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.utils.Android
-import com.scp.wallet.utils.Currency
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigInteger
+
 
 class SendActivity : AppCompatActivity() {
 
@@ -47,7 +54,12 @@ class SendActivity : AppCompatActivity() {
         if(walletId != null && walletPwd != null) {
 
             wallet = Wallet(walletId, this)
-            wallet.unlockWithKey(walletPwd)
+            try {
+                wallet.unlockWithKey(walletPwd)
+            } catch (e: WrongWalletPasswordException) {
+                setResult(RESULT_CANCELED, Intent())
+                finish()
+            }
 
             val value = intent.getDoubleExtra(IE_SCP_FIAT, -1.0)
             scpFiat = if(value <= 0) null else value
@@ -77,10 +89,15 @@ class SendActivity : AppCompatActivity() {
 
         intent.getStringExtra(IE_TRANSACTION_FEE)?.let { fee ->
             val minersFee = CurrencyValue(BigInteger(fee))
-            val feeText = "Miners fee ${minersFee.toScpReadable()}"
+            val feeText = "Miner fees: ${minersFee.toScpReadable()}"
             binding.sendTransactionFees.text = feeText
         }
 
+        val balancePrefix = "Wallet ${wallet.name}: "
+        val balanceValue = wallet.getBalance().toScpReadable()
+        val spannable = SpannableString(balancePrefix+balanceValue)
+        spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.blue_scp, theme)), balancePrefix.length, (balancePrefix + balanceValue).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        binding.sendWalletBalance.setText(spannable, TextView.BufferType.SPANNABLE)
 
     }
 
@@ -102,6 +119,20 @@ class SendActivity : AppCompatActivity() {
         binding.sendAddressScan.setOnClickListener {
             val i = Intent(this, ScanActivity::class.java)
             resultRequestScan.launch(i)
+        }
+
+        binding.sendWalletBalance.setOnClickListener {
+            val fee = intent.getStringExtra(IE_TRANSACTION_FEE)
+            val maxAmount = if(fee != null) {
+                wallet.getBalance() - CurrencyValue(BigInteger(fee))
+            } else {
+                wallet.getBalance()
+            }
+            if(maxAmount.value <= BigInteger.ZERO) {
+                Popup.showSimple("Insufficient funds", "This wallet has not enough balance to cover the miner fees.", this)
+            } else {
+                binding.sendAmount.setText(maxAmount.significantValueString())
+            }
         }
 
         binding.sendAmount.addTextChangedListener(object : TextWatcher {

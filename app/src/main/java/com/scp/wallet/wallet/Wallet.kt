@@ -42,8 +42,12 @@ class Wallet(val id: String, context: Context) {
         name = dataAccess.getName()
         transactions = dataAccess.getTransactions().toMutableList()
         walletKey?.let { validEncryptionKey ->
-            seed = dataAccess.getSeed(validEncryptionKey)
-            keys = dataAccess.getKeys(validEncryptionKey).toMutableList()
+            try {
+                seed = dataAccess.getSeed(validEncryptionKey)
+                keys = dataAccess.getKeys(validEncryptionKey).toMutableList()
+            } catch (e: WrongWalletPasswordException) {
+                e.printStackTrace()
+            }
         }
     }
 
@@ -114,6 +118,7 @@ class Wallet(val id: String, context: Context) {
         val key = crypto.blake2b(encryptionPassword.toByteArray())
 
         dataAccess.changeWalletKey(key, newKey)
+        this.walletKey = newKey
 
     }
 
