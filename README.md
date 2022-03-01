@@ -39,6 +39,10 @@ Feel free to make a pull request to add useful features or bug fixes.
 
 If you're able to run a reliable server contact me to be added to the list of trusted servers.
 
+### Translations
+
+No programming skills necessary. Follow [this contribution guide](translations.md) to translate SCP Wallet in a language you know.
+
 
 ## Preview
 
