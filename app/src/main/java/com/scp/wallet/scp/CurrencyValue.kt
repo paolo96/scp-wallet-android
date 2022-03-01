@@ -3,7 +3,6 @@ package com.scp.wallet.scp
 import com.scp.wallet.utils.Bytes
 import java.math.BigDecimal
 import java.math.BigInteger
-import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 
 class CurrencyValue(var value: BigInteger) {

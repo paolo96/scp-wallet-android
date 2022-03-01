@@ -1,6 +1,6 @@
 package com.scp.wallet.wallet
 
-import com.scp.wallet.crypto.*
+import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.crypto.Crypto.Companion.crypto
 import com.scp.wallet.exceptions.InvalidSeedStringException
 import com.scp.wallet.exceptions.WalletLockedException
@@ -8,10 +8,7 @@ import com.scp.wallet.mnemonics.Dictionary
 import com.scp.wallet.scp.*
 import com.scp.wallet.utils.Bytes
 import com.scp.wallet.utils.Hex
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
-import java.lang.RuntimeException
 import java.math.BigInteger
 
 class WalletHelper(private val dataAccess: WalletDataAccess) {

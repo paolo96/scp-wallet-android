@@ -3,6 +3,7 @@ package com.scp.wallet.activities.wallets
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,9 +14,6 @@ import com.scp.wallet.databinding.ListItemTransactionBinding
 import com.scp.wallet.scp.Transaction
 import com.scp.wallet.utils.Dates
 import java.math.BigInteger
-
-import android.net.Uri
-import com.google.gson.Gson
 
 
 class TransactionsAdapter : ListAdapter<Transaction, TransactionsAdapter.ViewHolder>(TransactionsDiffCallback()) {

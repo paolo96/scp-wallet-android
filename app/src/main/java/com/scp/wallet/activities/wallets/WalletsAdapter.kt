@@ -11,10 +11,9 @@ import com.scp.wallet.R
 import com.scp.wallet.activities.newwallet.NewWalletActivity
 import com.scp.wallet.databinding.ListItemNewWalletBinding
 import com.scp.wallet.databinding.ListItemWalletBinding
-import com.scp.wallet.scp.UnlockHash
-import com.scp.wallet.utils.Dates
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.utils.Currency
+import com.scp.wallet.utils.Dates
 import com.scp.wallet.wallet.Wallet
 
 class WalletsAdapter : ListAdapter<Wallet, RecyclerView.ViewHolder>(WalletsDiffCallback()) {
@@ -79,7 +78,7 @@ class WalletsAdapter : ListAdapter<Wallet, RecyclerView.ViewHolder>(WalletsDiffC
 
             val lastTransactionTime = item.getLastTransactionDate()
             if(lastTransactionTime == null) {
-                binding.itemWalletTransaction.text = "None"
+                binding.itemWalletTransaction.text = binding.root.resources.getString(R.string.none)
             } else {
                 binding.itemWalletTransaction.text = Dates.timestampToReadable(lastTransactionTime)
             }

@@ -1,20 +1,19 @@
 package com.scp.wallet.wallet
 
 import android.content.Context
-import androidx.security.crypto.MasterKey
-import com.scp.wallet.scp.SpendableKey
-import com.scp.wallet.scp.Transaction
-import androidx.security.crypto.EncryptedSharedPreferences
 import android.content.SharedPreferences
 import android.util.Base64
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.scp.wallet.R
 import com.scp.wallet.crypto.Crypto.Companion.XSALSA20_POLY1305_NONCEBYTES
 import com.scp.wallet.crypto.Crypto.Companion.crypto
 import com.scp.wallet.exceptions.WrongWalletPasswordException
+import com.scp.wallet.scp.SpendableKey
+import com.scp.wallet.scp.Transaction
 import com.scp.wallet.utils.Strings
-import java.lang.Exception
 
 //Stores and retrieves wallet data from the device
 //Everything is encrypted using AES256. The encryption is managed by androidx.security.crypto

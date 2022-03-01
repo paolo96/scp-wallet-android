@@ -2,7 +2,7 @@
 
     <string name="app_name">SCP Wallet</string>
 
-    <string name="activity_title_donations">Support Development</string>
+    <string name="activity_title_wallets">Wallets</string>
     <string name="activity_title_export_seed">Export Seed</string>
     <string name="activity_title_receive">Receive SCP</string>
     <string name="activity_title_send">Send SCP</string>
@@ -10,6 +10,9 @@
     <string name="activity_title_import_wallet">Import Wallet</string>
     <string name="activity_title_new_wallet">New Wallet</string>
     <string name="activity_title_settings">Settings</string>
+    <string name="activity_title_wallet_settings">Wallet Settings</string>
+    <string name="activity_title_donations">Support Development</string>
+
     <string name="button_seed_warning">I have written the %1$s words</string>
     <string name="textview_wallet_name">Wallet %1$s</string>
     <string name="textview_miner_fees">Miner fees: %1$s</string>
@@ -24,6 +27,7 @@
     <string name="exception_transaction_connection_issue">The transaction could not be created due to a connection issue.</string>
     <string name="exception_transaction_broadcast">The transaction could not be broadcasted to the network.</string>
     <string name="exception_wallet_locked">Wallet is locked</string>
+    <string name="exception_wrong_password">Wrong wallet password provided</string>
 
     <string name="popup_title_invalid_seed">Invalid seed</string>
     <string name="popup_description_invalid_seed_format">Supported formats are 29 or 28 words seed (english) separated by whitespaces, new lines, commas or semicolons.</string>
@@ -36,6 +40,8 @@
     <string name="popup_description_unlock_wallet">Unlock your wallet to continue.</string>
     <string name="popup_title_change_password">Change password</string>
     <string name="popup_description_change_password">Insert your current password and the new one.</string>
+    <string name="popup_title_remove_wallet">Do you want to remove this wallet?</string>
+    <string name="popup_description_remove_wallet">Make sure that you have copied your seed. You will not be able to recover this wallet otherwise.</string>
     <string name="popup_title_scan_invalid_qr">Invalid QR code</string>
     <string name="popup_description_scan_invalid_qr">This QR code does not contain a valid SCP address.</string>
     <string name="popup_title_no_camera_permission">Camera permission not granted</string>
@@ -53,6 +59,8 @@
     <string name="popup_description_invalid_address">Invalid SCP address provided. %1$s</string>
     <string name="popup_title_donation_no_wallet">No wallet selected</string>
     <string name="popup_description_donation_no_wallet">Switch to the wallet you wish to make the donation from.</string>
+    <string name="popup_title_empty_wallet">Empty wallet</string>
+    <string name="popup_description_empty_wallet">This wallet has no funds.</string>
     <string name="popup_title_change_server">Do you want to change server?</string>
     <string name="popup_description_change_server">Make sure that you\'re using a trusted server or your own server. Although the server doesn\'t have access to the wallets seed, a malicious attacker could display false transactions data and cause severe consequences as a result. Furthermore your current wallets could be missing some transactions after this change, you should import them again after the change.</string>
     <string name="toast_invalid_amount">Invalid amount, no transaction sent</string>
@@ -69,6 +77,7 @@
     <string name="share_using">Share using</string>
     <string name="unconfirmed">Unconfirmed</string>
     <string name="waiting">Waiting</string>
+    <string name="none">none</string>
     <string name="default_wallet_name">Default</string>
 
     <string-array name="currencies_array">

@@ -3,20 +3,19 @@ package com.scp.wallet.activities.wallets
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.scp.wallet.databinding.ActivityWalletsBinding
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.scp.wallet.R
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.scp.wallet.R
 import com.scp.wallet.activities.donations.DonationsActivity
 import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.activities.receive.ReceiveActivity
@@ -25,10 +24,9 @@ import com.scp.wallet.activities.send.SendActivity
 import com.scp.wallet.activities.send.SendActivity.Companion.IE_TRANSACTION_FEE
 import com.scp.wallet.activities.settings.SettingsActivity
 import com.scp.wallet.activities.walletsettings.WalletSettingsActivity
-import com.scp.wallet.scp.*
+import com.scp.wallet.databinding.ActivityWalletsBinding
 import com.scp.wallet.ui.Popup
 import com.scp.wallet.utils.Currency
-import com.scp.wallet.utils.Hex
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -57,7 +55,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
         super.onCreate(savedInstanceState)
         binding = ActivityWalletsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Wallets"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_wallets)
         binding.customActionBar.actionBarBack.visibility = View.GONE
         binding.customActionBar.actionBarExtra.setImageResource(R.drawable.ic_settings)
         binding.customActionBar.actionBarExtra.visibility = View.VISIBLE
@@ -336,7 +334,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                 if(currentWallet != null) {
 
                     if(currentWallet.getBalance().value == BigInteger.ZERO) {
-                        Popup.showSimple("Empty wallet", "This wallet has no funds.", this)
+                        Popup.showSimple(getString(R.string.popup_title_empty_wallet), getString(R.string.popup_description_empty_wallet), this)
                     } else {
                         if(currentWallet.getSeed() == null) {
                             Popup.showUnlockWallet(currentWallet, this) { resultUnlock ->

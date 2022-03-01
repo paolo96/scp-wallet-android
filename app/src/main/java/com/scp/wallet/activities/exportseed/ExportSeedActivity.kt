@@ -1,7 +1,7 @@
 package com.scp.wallet.activities.exportseed
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.R
 import com.scp.wallet.databinding.ActivityExportSeedBinding
 import com.scp.wallet.ui.SeedInterface

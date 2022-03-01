@@ -4,10 +4,11 @@ import android.util.Base64
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.google.gson.*
-import java.math.BigInteger
-import com.scp.wallet.scp.*
+import com.scp.wallet.scp.Transaction
+import com.scp.wallet.scp.UnlockConditions
+import com.scp.wallet.scp.UnlockHash
 import com.scp.wallet.utils.Currency
-import com.scp.wallet.utils.Hex
+import java.math.BigInteger
 
 
 object API {

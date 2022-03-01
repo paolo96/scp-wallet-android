@@ -1,8 +1,8 @@
 package com.scp.wallet.activities.newwallet
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.R
 import com.scp.wallet.activities.createwallet.CreateWalletActivity
 import com.scp.wallet.activities.importwallet.ImportWalletActivity

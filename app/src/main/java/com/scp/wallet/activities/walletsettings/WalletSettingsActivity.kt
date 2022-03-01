@@ -1,13 +1,13 @@
 package com.scp.wallet.activities.walletsettings
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.scp.wallet.R
 import com.scp.wallet.activities.exportseed.ExportSeedActivity
-import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_ID
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_PWD
@@ -25,7 +25,7 @@ class WalletSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWalletSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Wallet Settings"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_wallet_settings)
 
         val walletId = intent.getStringExtra(IE_WALLET_ID)
         val walletPwd = intent.getByteArrayExtra(IE_WALLET_PWD)
@@ -74,7 +74,7 @@ class WalletSettingsActivity : AppCompatActivity() {
 
         binding.walletSettingsDelete.setOnClickListener {
 
-            Popup.showChoice("Do you want to remove this wallet?", "Make sure that you have copied your seed. You will not be able to recover this wallet otherwise.", this) { result ->
+            Popup.showChoice(getString(R.string.popup_title_remove_wallet), getString(R.string.popup_description_remove_wallet), this) { result ->
                 if(result) {
 
                     wallet.getDataAccess().reset()

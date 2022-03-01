@@ -1,14 +1,8 @@
 package com.scp.wallet.activities.createwallet
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.GridLayout
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.R
 import com.scp.wallet.activities.newwallet.NewWalletActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
@@ -16,9 +10,6 @@ import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.databinding.ActivityCreateWalletBinding
 import com.scp.wallet.ui.SeedInterface
 import com.scp.wallet.utils.Hex
-import com.scp.wallet.utils.capitalized
-import com.scp.wallet.utils.dp
-import com.scp.wallet.utils.px
 import com.scp.wallet.wallet.Wallet
 
 class CreateWalletActivity : AppCompatActivity() {

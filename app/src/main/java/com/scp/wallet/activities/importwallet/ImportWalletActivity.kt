@@ -1,8 +1,8 @@
 package com.scp.wallet.activities.importwallet
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.scp.wallet.R
 import com.scp.wallet.activities.newwallet.NewWalletActivity
@@ -10,8 +10,8 @@ import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.databinding.ActivityImportWalletBinding
 import com.scp.wallet.exceptions.InvalidSeedStringException
-import com.scp.wallet.utils.Hex
 import com.scp.wallet.ui.Popup
+import com.scp.wallet.utils.Hex
 import com.scp.wallet.wallet.Wallet
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

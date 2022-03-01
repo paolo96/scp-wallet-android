@@ -1,9 +1,7 @@
 package com.scp.wallet
 
-import android.util.Base64
 import com.scp.wallet.crypto.Crypto.Companion.XSALSA20_POLY1305_NONCEBYTES
 import com.scp.wallet.crypto.Crypto.Companion.crypto
-import com.scp.wallet.utils.Hex
 import org.junit.Test
 
 class CryptoTest {

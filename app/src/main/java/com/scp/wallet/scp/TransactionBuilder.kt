@@ -1,13 +1,11 @@
 package com.scp.wallet.scp
 
-import com.google.gson.Gson
 import com.scp.wallet.R
 import com.scp.wallet.api.API
 import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.utils.Hex
 import com.scp.wallet.utils.Strings
 import com.scp.wallet.wallet.Wallet
-import java.lang.Exception
 import java.math.BigInteger
 
 class TransactionBuilder(val wallet: Wallet) {

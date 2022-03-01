@@ -4,10 +4,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.R
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivityDonationsBinding
