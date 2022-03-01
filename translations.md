@@ -25,10 +25,10 @@ I'll review the translation and merge it or ask for changes if needed.
 
 Please follow these guidelines when translating the strings.xml file:
 * Don't translate comments (the ones that look like these: < ! -- this is a comment -- >)
-* Don't change the strings name, but only the value. For example the row "< string name="button_save" >Save< / string >" should become in italian "< string name="button_save" >Salve< / string >". Notice that button_save isn't changed.
+* Don't change the strings name, but only the value. For example the row "< string name="button_save" >Save< / string >" should become in italian "< string name="button_save" >Salva< / string >". Notice that button_save isn't changed.
 * Maintain the formatting of the english strings when possible. For example if a string ends with a period, the translation should also end with a period. If a string starts with a capital letter, the translation should also start with a capital letter if it makes sense in the language you're translating to.
 * Treat variables carefully. Some strings contain variables that look like this "%1$s". For example "%1$s minutes ago" will be displayed as "10 minutes ago" or "25 minutes ago" to the user. Position them where it makes most sense in the translation.
-* Special characters. You can find [here](https://developer.android.com/guide/topics/resources/string-resource#escaping_quotes) a list of characters that must be escaped and how to escape them. For example the single quote ' should be escaped with a backslash \'
+* Special characters. You can find [here](https://developer.android.com/guide/topics/resources/string-resource#escaping_quotes) a list of characters that must be escaped and how to escape them. For example the single quote ' should be escaped with a backslash \\'
 * Partial translations will not be merged, although you can still push them, maybe someone else will complete them
 
 ## Translation updates
