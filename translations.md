@@ -8,7 +8,7 @@ You can use any text editor to perform the translation, but I suggest you to use
 
 ## Steps
 
-If you don't know how to use git, just translate the file [strings.xml](app/src/main/res/values/strings.xml) following the guidelines below, then contact me and I'll open a pull request for you.
+If you don't know how to use git, just translate the file [strings.xml](app/src/main/res/values/strings.xml) following the guidelines below, then contact me and send me the translated file. I'll open a pull request for you.
 
 If you know how to use git:
 1. Clone the repo
@@ -29,3 +29,12 @@ Please follow these guidelines when translating the strings.xml file:
 * Maintain the formatting of the english strings when possible. For example if a string ends with a period, the translation should also end with a period. If a string starts with a capital letter, the translation should also start with a capital letter if it makes sense in the language you're translating to.
 * Treat variables carefully. Some strings contain variables that look like this "%1$s". For example "%1$s minutes ago" will be displayed as "10 minutes ago" or "25 minutes ago" to the user. Position them where it makes most sense in the translation.
 * Special characters. You can find [here](https://developer.android.com/guide/topics/resources/string-resource#escaping_quotes) a list of characters that must be escaped and how to escape them. For example the single quote ' should be escaped with a backslash \'
+* Partial translations will not be merged, although you can still push them, maybe someone else will complete them
+
+## Translation updates
+
+With time, as new features are added to SCP Wallet, translations of existing languages will need to be updated.
+
+They will be published in English initially until someone updates that language.
+
+So contribution to existing languages which are lagging behind are as welcome as new translations.
