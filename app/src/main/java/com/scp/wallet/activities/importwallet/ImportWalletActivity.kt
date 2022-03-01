@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.scp.wallet.R
 import com.scp.wallet.activities.newwallet.NewWalletActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.crypto.Crypto
@@ -26,7 +27,7 @@ class ImportWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityImportWalletBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Import wallet"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_import_wallet)
 
         val walletPwd = intent.getStringExtra(NewWalletActivity.IE_WALLET_PWD)
 
@@ -77,7 +78,7 @@ class ImportWalletActivity : AppCompatActivity() {
     }
 
     private fun invalidSeed() {
-        Popup.showSimple("Invalid seed", "Supported formats are 29 or 28 words seed (english) separated by whitespaces or new lines or commas or semicolons.", this)
+        Popup.showSimple(getString(R.string.popup_title_invalid_seed), getString(R.string.popup_description_invalid_seed_format), this)
     }
 
     private fun importSeed(seed: String) {
@@ -97,7 +98,7 @@ class ImportWalletActivity : AppCompatActivity() {
                 if(found) {
                     importWallet(newWallet.id)
                 } else {
-                    Popup.showChoice("Wallet is too big", "This wallet has used many addresses, Scp Wallet is not currently built to handle large wallets. If you import this seed you could experience missing transactions and you may not be able to send SCP coins. Do you want to proceed anyway?", this) { proceed ->
+                    Popup.showChoice(getString(R.string.popup_title_big_wallet), getString(R.string.popup_description_big_wallet), this) { proceed ->
                         if(proceed) {
                             importWallet(newWallet.id)
                         }
@@ -105,12 +106,12 @@ class ImportWalletActivity : AppCompatActivity() {
                 }
                 activateImportButtonWithDelay()
             }, {
-                Popup.showSimple("Something went wrong", "An error happened while trying to sync the wallet transactions. Retry later or change server.", this)
+                Popup.showSimple(getString(R.string.popup_title_sync_failed), getString(R.string.popup_description_sync_failed), this)
                 activateImportButtonWithDelay()
             })
 
         } catch (e: InvalidSeedStringException) {
-            Popup.showSimple("Invalid seed", "Seed verification failed: ${e.message}", this)
+            Popup.showSimple(getString(R.string.popup_title_invalid_seed), getString(R.string.popup_description_invalid_seed_verification, e.message), this)
         }
 
     }

@@ -32,7 +32,7 @@ class CreateWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateWalletBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Wallet Creation"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_create_wallet)
 
         val walletPassword = intent.getStringExtra(NewWalletActivity.IE_WALLET_PWD)
 
@@ -48,8 +48,7 @@ class CreateWalletActivity : AppCompatActivity() {
 
             SeedInterface.drawSeed(newSeed, binding.createWalletSeedContainer, this)
 
-            val buttonWarning = "I have written the ${newSeed.split(" ").size} words"
-            binding.createWalletConfirm.text = buttonWarning
+            binding.createWalletConfirm.text = getString(R.string.button_seed_warning, newSeed.split(" ").size.toString())
             initListeners()
 
         } else {

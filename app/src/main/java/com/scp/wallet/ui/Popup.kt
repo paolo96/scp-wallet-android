@@ -3,7 +3,6 @@ package com.scp.wallet.ui
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import com.scp.wallet.R
 import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.wallet.Wallet
-import java.lang.Exception
 
 
 object Popup {
@@ -81,8 +79,8 @@ object Popup {
         val editPassword = view.findViewById<EditText>(R.id.alertInput)
         editPassword.visibility = View.VISIBLE
         view.findViewById<TextView>(R.id.alertInputLabel).visibility = View.VISIBLE
-        view.findViewById<TextView>(R.id.alertTitle).text = "Wallet is locked"
-        view.findViewById<TextView>(R.id.alertDescription).text = "Unlock your wallet to continue"
+        view.findViewById<TextView>(R.id.alertTitle).text = context.getString(R.string.popup_title_unlock_wallet)
+        view.findViewById<TextView>(R.id.alertDescription).text = context.getString(R.string.popup_description_unlock_wallet)
 
         var positive = false
         view.findViewById<Button>(R.id.alertButtonPositive).setOnClickListener {
@@ -94,7 +92,7 @@ object Popup {
                 alert.dismiss()
             } catch (e: WrongWalletPasswordException) {
                 editPassword.setText("")
-                editPassword.hint = "Wrong password"
+                editPassword.hint = context.getString(R.string.wrong_password)
             }
         }
         view.findViewById<Button>(R.id.alertButtonNegative).setOnClickListener {
@@ -130,8 +128,8 @@ object Popup {
         newEditPassword.visibility = View.VISIBLE
         view.findViewById<TextView>(R.id.alertInputTwoLabel).visibility = View.VISIBLE
 
-        view.findViewById<TextView>(R.id.alertTitle).text = "Change password"
-        view.findViewById<TextView>(R.id.alertDescription).text = "Insert your current password and the new one"
+        view.findViewById<TextView>(R.id.alertTitle).text = context.getString(R.string.popup_title_change_password)
+        view.findViewById<TextView>(R.id.alertDescription).text = context.getString(R.string.popup_description_change_password)
 
         var positive = false
         view.findViewById<Button>(R.id.alertButtonPositive).setOnClickListener {
@@ -143,7 +141,7 @@ object Popup {
                 alert.dismiss()
             } catch (e: WrongWalletPasswordException) {
                 editPassword.setText("")
-                editPassword.hint = "Wrong password"
+                editPassword.hint = context.getString(R.string.wrong_password)
             }
         }
         view.findViewById<Button>(R.id.alertButtonNegative).setOnClickListener {

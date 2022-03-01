@@ -350,7 +350,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                     }
 
                 } else {
-                    Popup.showSimple("No wallet selected", "Switch to the wallet you wish to make the donation from.", this)
+                    Popup.showSimple(getString(R.string.popup_title_donation_no_wallet), getString(R.string.popup_description_donation_no_wallet), this)
                 }
             }
         }

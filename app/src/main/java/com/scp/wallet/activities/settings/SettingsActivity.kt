@@ -22,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Settings"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_settings)
 
         initViews()
         initListeners()
@@ -59,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             if(newHost != API.host) {
-                Popup.showChoice("Do you want to change server?", "Make sure that you're using a trusted server or your own server. Although the server doesn't have access to the wallets seed, a malicious attacker could display false transactions data and cause severe consequences as a result. Furthermore your current wallets could be missing some transactions after this change, you should import them again after the change.", this) { result ->
+                Popup.showChoice(getString(R.string.popup_title_change_server), getString(R.string.popup_description_change_server), this) { result ->
 
                     if(result) {
                         sp.edit().putString(LaunchActivity.SP_HOST, newHost).apply()

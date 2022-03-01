@@ -1,4 +1,76 @@
 <resources>
+
+    <string name="app_name">SCP Wallet</string>
+
+    <string name="activity_title_donations">Support Development</string>
+    <string name="activity_title_export_seed">Export Seed</string>
+    <string name="activity_title_receive">Receive SCP</string>
+    <string name="activity_title_send">Send SCP</string>
+    <string name="activity_title_create_wallet">Wallet Creation</string>
+    <string name="activity_title_import_wallet">Import Wallet</string>
+    <string name="activity_title_new_wallet">New Wallet</string>
+    <string name="activity_title_settings">Settings</string>
+    <string name="button_seed_warning">I have written the %1$s words</string>
+    <string name="textview_wallet_name">Wallet %1$s</string>
+    <string name="textview_miner_fees">Miner fees: %1$s</string>
+    <string name="textview_transaction_confirmations_big">100+ confirmations</string>
+    <string name="textview_transaction_confirmations">%1$s confirmations</string>
+    <string name="textview_transaction_confirmation">One confirmation</string>
+    <string name="textview_transaction_confirmed">Confirmed</string>
+
+    <string name="exception_api">Failed to communicate with the server.</string>
+    <string name="exception_funds_unconfirmed">Necessary funds are in unconfirmed transactions. Wait until the pending transactions have been confirmed.</string>
+    <string name="exception_transaction_sign">Failed to sign the new transaction.</string>
+    <string name="exception_transaction_connection_issue">The transaction could not be created due to a connection issue.</string>
+    <string name="exception_transaction_broadcast">The transaction could not be broadcasted to the network.</string>
+    <string name="exception_wallet_locked">Wallet is locked</string>
+
+    <string name="popup_title_invalid_seed">Invalid seed</string>
+    <string name="popup_description_invalid_seed_format">Supported formats are 29 or 28 words seed (english) separated by whitespaces, new lines, commas or semicolons.</string>
+    <string name="popup_description_invalid_seed_verification">Seed verification failed: %1$s</string>
+    <string name="popup_title_big_wallet">Wallet is too big</string>
+    <string name="popup_description_big_wallet">This wallet has used many addresses, Scp Wallet is not currently built to handle large wallets. If you import this seed you could experience missing transactions and you may not be able to send SCP coins. Do you want to proceed anyway?</string>
+    <string name="popup_title_sync_failed">Something went wrong</string>
+    <string name="popup_description_sync_failed">An error happened while trying to sync the wallet transactions. Retry later or change server.</string>
+    <string name="popup_title_unlock_wallet">Wallet is locked</string>
+    <string name="popup_description_unlock_wallet">Unlock your wallet to continue.</string>
+    <string name="popup_title_change_password">Change password</string>
+    <string name="popup_description_change_password">Insert your current password and the new one.</string>
+    <string name="popup_title_scan_invalid_qr">Invalid QR code</string>
+    <string name="popup_description_scan_invalid_qr">This QR code does not contain a valid SCP address.</string>
+    <string name="popup_title_no_camera_permission">Camera permission not granted</string>
+    <string name="popup_description_no_camera_permission">The permission to use the camera has not been granted to SCP wallet. You can manage permissions in your phone settings.</string>
+    <string name="popup_title_insufficient_funds">Insufficient funds</string>
+    <string name="popup_description_insufficient_funds_fees">This wallet has not enough balance to cover the miner fees.</string>
+    <string name="popup_description_insufficient_funds">Cannot send %1$s. The balance for this wallet is %2$s.</string>
+    <string name="popup_title_emulator_warning">Emulator warning</string>
+    <string name="popup_description_emulator_warning">Crypto signing may not work in the emulator. Do you want to proceed anyway?</string>
+    <string name="popup_title_transaction_sent">Transaction sent</string>
+    <string name="popup_description_transaction_sent">The transaction has been successfully sent.</string>
+    <string name="popup_title_transaction_not_sent">Transaction not sent</string>
+    <string name="popup_description_transaction_not_sent">Error: %1$s</string>
+    <string name="popup_title_invalid_address">Invalid address</string>
+    <string name="popup_description_invalid_address">Invalid SCP address provided. %1$s</string>
+    <string name="popup_title_donation_no_wallet">No wallet selected</string>
+    <string name="popup_description_donation_no_wallet">Switch to the wallet you wish to make the donation from.</string>
+    <string name="popup_title_change_server">Do you want to change server?</string>
+    <string name="popup_description_change_server">Make sure that you\'re using a trusted server or your own server. Although the server doesn\'t have access to the wallets seed, a malicious attacker could display false transactions data and cause severe consequences as a result. Furthermore your current wallets could be missing some transactions after this change, you should import them again after the change.</string>
+    <string name="toast_invalid_amount">Invalid amount, no transaction sent</string>
+
+    <string name="unknown">Unknown</string>
+    <string name="moments_ago">Moments ago</string>
+    <string name="minutes_ago">%1$s minutes ago</string>
+    <string name="hours_ago">%1$s hours ago</string>
+    <string name="days_ago">%1$s days ago</string>
+    <string name="long_time_ago">Long time ago</string>
+    <string name="scp_address">SCP address</string>
+    <string name="address_copied">Address copied</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="share_using">Share using</string>
+    <string name="unconfirmed">Unconfirmed</string>
+    <string name="waiting">Waiting</string>
+    <string name="default_wallet_name">Default</string>
+
     <string-array name="currencies_array">
         <item>USD</item>
         <item>EUR</item>
@@ -14,5 +86,4 @@
         <item>INR</item>
     </string-array>
 
-    <string name="app_name">SCP Wallet</string>
 </resources>

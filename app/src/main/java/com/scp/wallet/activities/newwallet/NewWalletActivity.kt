@@ -3,6 +3,7 @@ package com.scp.wallet.activities.newwallet
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.scp.wallet.R
 import com.scp.wallet.activities.createwallet.CreateWalletActivity
 import com.scp.wallet.activities.importwallet.ImportWalletActivity
 import com.scp.wallet.databinding.ActivityNewWalletBinding
@@ -15,7 +16,7 @@ class NewWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewWalletBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "New Wallet"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_new_wallet)
 
         initListeners()
 

@@ -1,6 +1,5 @@
 package com.scp.wallet.activities.send
 
-import android.R.id.text2
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -46,7 +45,7 @@ class SendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySendBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Send SCP"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_send)
 
         val walletId = intent.getStringExtra(WalletsActivity.IE_WALLET_ID)
         val walletPwd = intent.getByteArrayExtra(WalletsActivity.IE_WALLET_PWD)
@@ -89,11 +88,11 @@ class SendActivity : AppCompatActivity() {
 
         intent.getStringExtra(IE_TRANSACTION_FEE)?.let { fee ->
             val minersFee = CurrencyValue(BigInteger(fee))
-            val feeText = "Miner fees: ${minersFee.toScpReadable()}"
+            val feeText = getString(R.string.textview_miner_fees, minersFee.toScpReadable())
             binding.sendTransactionFees.text = feeText
         }
 
-        val balancePrefix = "Wallet ${wallet.name}: "
+        val balancePrefix = "${getString(R.string.textview_wallet_name, wallet.name)}: "
         val balanceValue = wallet.getBalance().toScpReadable()
         val spannable = SpannableString(balancePrefix+balanceValue)
         spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.blue_scp, theme)), balancePrefix.length, (balancePrefix + balanceValue).length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -129,7 +128,7 @@ class SendActivity : AppCompatActivity() {
                 wallet.getBalance()
             }
             if(maxAmount.value <= BigInteger.ZERO) {
-                Popup.showSimple("Insufficient funds", "This wallet has not enough balance to cover the miner fees.", this)
+                Popup.showSimple(getString(R.string.popup_title_insufficient_funds), getString(R.string.popup_description_insufficient_funds_fees), this)
             } else {
                 binding.sendAmount.setText(maxAmount.significantValueString())
             }
@@ -150,7 +149,7 @@ class SendActivity : AppCompatActivity() {
         binding.sendButton.setOnClickListener {
 
             if(Android.isEmulator()) {
-                Popup.showChoice("Warning", "Crypto signing may not work in the emulator. Do you want to proceed anyway?", this) {
+                Popup.showChoice(getString(R.string.popup_title_emulator_warning), getString(R.string.popup_description_emulator_warning), this) {
                     if(it) {
                         send()
                     }
@@ -178,9 +177,9 @@ class SendActivity : AppCompatActivity() {
         val walletBalance = wallet.getBalance()
         if(insertedValue.value <= BigInteger.ZERO) {
             binding.sendAmount.setText("")
-            Toast.makeText(this, "Invalid amount, no transaction sent", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.toast_invalid_amount), Toast.LENGTH_SHORT).show()
         } else if(insertedValue.value > walletBalance.value) {
-            Popup.showSimple("Not enough funds", "Cannot send ${insertedValue.toScpReadable()}. The balance for this wallet is ${walletBalance.toScpReadable()}", this)
+            Popup.showSimple(getString(R.string.popup_title_insufficient_funds), getString(R.string.popup_description_insufficient_funds, insertedValue.toScpReadable(), walletBalance.toScpReadable()), this)
         } else {
             val insertedAddress = binding.sendAddress.text.toString().lowercase().replace("[^0-9a-f]".toRegex(), "")
             if(insertedAddress == "") {
@@ -196,16 +195,16 @@ class SendActivity : AppCompatActivity() {
                     wallet.send(insertedValue, unlockHash, false, {
                         binding.sendAmount.setText("")
                         binding.sendAddress.setText("")
-                        Popup.showSimple("Transaction sent", "The transaction has been successfully sent.", this) {
+                        Popup.showSimple(getString(R.string.popup_title_transaction_sent), getString(R.string.popup_description_transaction_sent), this) {
                             onBackPressed()
                         }
                     }, {
-                        Popup.showSimple("Transaction not sent", it, this)
+                        Popup.showSimple(getString(R.string.popup_title_transaction_not_sent), getString(R.string.popup_description_transaction_not_sent, it), this)
                         activateSendButtonWithDelay()
                     })
 
                 } catch (e: InvalidUnlockHashException) {
-                    Popup.showSimple("Invalid address", "${e.message}", this)
+                    Popup.showSimple(getString(R.string.popup_title_invalid_address), getString(R.string.popup_description_invalid_address, e.message), this)
                     activateSendButtonWithDelay()
                 }
             }

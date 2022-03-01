@@ -1,7 +1,7 @@
 package com.scp.wallet.wallet
 
 import android.content.Context
-import com.google.gson.Gson
+import com.scp.wallet.R
 import com.scp.wallet.api.API
 import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.crypto.Crypto.Companion.crypto
@@ -10,7 +10,7 @@ import com.scp.wallet.exceptions.ApiException
 import com.scp.wallet.exceptions.WalletLockedException
 import com.scp.wallet.exceptions.WrongWalletPasswordException
 import com.scp.wallet.scp.*
-import kotlinx.coroutines.runBlocking
+import com.scp.wallet.utils.Strings
 import org.jetbrains.annotations.TestOnly
 import java.lang.Exception
 import java.math.BigInteger
@@ -190,7 +190,7 @@ class Wallet(val id: String, context: Context) {
                 if(result) {
                     callback()
                 } else {
-                    callbackError("The transaction could not be broadcasted to the network")
+                    callbackError(Strings.get(R.string.exception_transaction_broadcast))
                 }
             }
         }, callbackError)
