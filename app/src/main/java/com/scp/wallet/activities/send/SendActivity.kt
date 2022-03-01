@@ -183,7 +183,7 @@ class SendActivity : AppCompatActivity() {
         } else {
             val insertedAddress = binding.sendAddress.text.toString().lowercase().replace("[^0-9a-f]".toRegex(), "")
             if(insertedAddress == "") {
-                Toast.makeText(this, "No address inserted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.toast_empty_address), Toast.LENGTH_SHORT).show()
             } else {
 
                 try {

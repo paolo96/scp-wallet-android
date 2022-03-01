@@ -116,13 +116,13 @@ class WalletSettingsActivity : AppCompatActivity() {
 
             if(wallet.getProgress() != binding.walletSettingsAddresses.text.toString().toInt()) {
 
-                Popup.showChoice("Are you sure?", "Use this setting only if you understand what it does.", this) { result ->
+                Popup.showChoice(getString(R.string.popup_title_advanced_warning), getString(R.string.popup_description_advanced_warning), this) { result ->
                     if(result) {
                         val newAddressesNum = binding.walletSettingsAddresses.text.toString().toInt() - wallet.getProgress()
                         if(newAddressesNum <= 0) {
-                            Toast.makeText(this, "Invalid number of addresses", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_invalid_number_addresses), Toast.LENGTH_SHORT).show()
                         } else if(newAddressesNum > Wallet.MAX_NUM_ADDRESSES_IMPORT) {
-                            Toast.makeText(this, "Max allowed is ${Wallet.MAX_NUM_ADDRESSES_IMPORT}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_max_allowed_import_addresses, Wallet.MAX_NUM_ADDRESSES_IMPORT.toString()), Toast.LENGTH_SHORT).show()
                         } else {
 
                             val seed = wallet.getSeed()
@@ -154,7 +154,7 @@ class WalletSettingsActivity : AppCompatActivity() {
 
             Popup.showChangePasswordWallet(wallet, this) { result ->
                 if(result) {
-                    Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.toast_password_change_success), Toast.LENGTH_SHORT).show()
                 }
             }
 

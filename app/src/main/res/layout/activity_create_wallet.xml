@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textAlignment="center"
-        android:text="Take a moment to write down these words on a piece of paper. You will need them to recover your wallet."
+        android:text="@string/textview_create_wallet_explain"
         app:layout_constraintEnd_toEndOf="@+id/createWalletWarning"
         app:layout_constraintStart_toStartOf="@+id/createWalletWarning"
         app:layout_constraintTop_toBottomOf="@+id/createWalletWarning" />

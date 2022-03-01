@@ -1,7 +1,9 @@
 <resources>
 
+    <!--Do not translate the brand name-->
     <string name="app_name">SCP Wallet</string>
 
+    <!--Activities titles-->
     <string name="activity_title_wallets">Wallets</string>
     <string name="activity_title_export_seed">Export Seed</string>
     <string name="activity_title_receive">Receive SCP</string>
@@ -13,6 +15,7 @@
     <string name="activity_title_wallet_settings">Wallet Settings</string>
     <string name="activity_title_donations">Support Development</string>
 
+    <!--UI text-->
     <string name="button_seed_warning">I have written the %1$s words</string>
     <string name="textview_wallet_name">Wallet %1$s</string>
     <string name="textview_miner_fees">Miner fees: %1$s</string>
@@ -20,7 +23,48 @@
     <string name="textview_transaction_confirmations">%1$s confirmations</string>
     <string name="textview_transaction_confirmation">One confirmation</string>
     <string name="textview_transaction_confirmed">Confirmed</string>
+    <string name="textview_create_wallet_explain">Take a moment to write down these words on a piece of paper. You will need them to recover your wallet.</string>
+    <string name="textview_donation_explain">If you find SCP Wallet useful, consider supporting future development with a donation.</string>
+    <string name="textview_donation_address">SCP donation address</string>
+    <string name="textview_bitcoin_donation_address">Bitcoin donation address</string>
+    <string name="textview_export_seed_explain">You should store your seed safely to ensure that your funds remain in your possession.</string>
+    <string name="textview_import_wallet_explain">Write down here your secret 29 or 28 words seed.\nIt will be encrypted and stored safely in your device.</string>
+    <string name="textview_wallet_name_label">Wallet name</string>
+    <string name="textview_choose_password">Choose a password to encrypt the wallet on this device</string>
+    <string name="textview_password_label">Password</string>
+    <string name="textview_currency_scp">SCP</string>
+    <string name="textview_address_label">Address</string>
+    <string name="textview_server_label">Server</string>
+    <string name="textview_fiat_currency_label">Fiat Currency</string>
+    <string name="textview_addresses_to_import">Addresses to import</string>
+    <string name="textview_transactions_label">Transactions</string>
+    <string name="textview_no_transactions">This wallet has no transactions</string>
+    <string name="textview_new_password_label">New Password</string>
+    <string name="textview_add_a_wallet">Add a wallet</string>
+    <string name="textview_add_a_wallet_explain">It\'s free and you can\ncreate as many as you like</string>
+    <string name="textview_latest_transaction">Latest Transaction</string>
+    <string name="edittext_hint_amount">Amount</string>
+    <string name="button_send_current_wallet">Send with current wallet</string>
+    <string name="button_copy_scp_address">Copy SCP address</string>
+    <string name="button_copy_btc_address">Copy BTC address</string>
+    <string name="button_import">Import</string>
+    <string name="button_scan">Scan</string>
+    <string name="button_save">Save</string>
+    <string name="button_view_open_source_code">View open source code</string>
+    <string name="button_change_password">Change Password</string>
+    <string name="button_export">Export</string>
+    <string name="button_remove_wallet">Remove Wallet</string>
+    <string name="button_send">Send</string>
+    <string name="button_receive">Receive</string>
+    <string name="button_create">Create</string>
+    <string name="button_copy">Copy</string>
+    <string name="button_share">Share</string>
+    <string name="button_new_address">New Address</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_add_now">Add now</string>
 
+    <!--Exceptions displayed to the user-->
     <string name="exception_api">Failed to communicate with the server.</string>
     <string name="exception_funds_unconfirmed">Necessary funds are in unconfirmed transactions. Wait until the pending transactions have been confirmed.</string>
     <string name="exception_transaction_sign">Failed to sign the new transaction.</string>
@@ -29,6 +73,7 @@
     <string name="exception_wallet_locked">Wallet is locked</string>
     <string name="exception_wrong_password">Wrong wallet password provided</string>
 
+    <!--Popups and toasts-->
     <string name="popup_title_invalid_seed">Invalid seed</string>
     <string name="popup_description_invalid_seed_format">Supported formats are 29 or 28 words seed (english) separated by whitespaces, new lines, commas or semicolons.</string>
     <string name="popup_description_invalid_seed_verification">Seed verification failed: %1$s</string>
@@ -61,10 +106,17 @@
     <string name="popup_description_donation_no_wallet">Switch to the wallet you wish to make the donation from.</string>
     <string name="popup_title_empty_wallet">Empty wallet</string>
     <string name="popup_description_empty_wallet">This wallet has no funds.</string>
+    <string name="popup_title_advanced_warning">Are you sure?</string>
+    <string name="popup_description_advanced_warning">Use this setting only if you understand what it does.</string>
     <string name="popup_title_change_server">Do you want to change server?</string>
     <string name="popup_description_change_server">Make sure that you\'re using a trusted server or your own server. Although the server doesn\'t have access to the wallets seed, a malicious attacker could display false transactions data and cause severe consequences as a result. Furthermore your current wallets could be missing some transactions after this change, you should import them again after the change.</string>
     <string name="toast_invalid_amount">Invalid amount, no transaction sent</string>
+    <string name="toast_empty_address">No address inserted</string>
+    <string name="toast_invalid_number_addresses">Invalid number of addresses</string>
+    <string name="toast_max_allowed_import_addresses">Max number of addresses allowed is %1$s</string>
+    <string name="toast_password_change_success">Password changed successfully</string>
 
+    <!--Other-->
     <string name="unknown">Unknown</string>
     <string name="moments_ago">Moments ago</string>
     <string name="minutes_ago">%1$s minutes ago</string>
@@ -80,6 +132,7 @@
     <string name="none">none</string>
     <string name="default_wallet_name">Default</string>
 
+    <!--Do not translate-->
     <string-array name="currencies_array">
         <item>USD</item>
         <item>EUR</item>

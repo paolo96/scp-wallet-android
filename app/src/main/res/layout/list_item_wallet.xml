@@ -76,7 +76,7 @@
         android:elevation="10dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
-        android:text="Latest Transaction"
+        android:text="@string/textview_latest_transaction"
         app:layout_constraintStart_toStartOf="@+id/itemWalletBalance"
         app:layout_constraintTop_toBottomOf="@+id/itemWalletBalanceFiat" />
 
