@@ -1,5 +1,6 @@
 package com.scp.wallet.exceptions
 
-import java.lang.Exception
+import com.scp.wallet.R
+import com.scp.wallet.utils.Strings
 
-class WrongWalletPasswordException(message: String = "Wrong wallet password provided") : Exception(message)
+class WrongWalletPasswordException(message: String = Strings.get(R.string.exception_wrong_password)) : Exception(message)

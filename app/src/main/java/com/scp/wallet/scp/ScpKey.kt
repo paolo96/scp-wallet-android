@@ -1,7 +1,6 @@
 package com.scp.wallet.scp
 
 import com.scp.wallet.utils.Bytes
-import java.lang.Exception
 import java.nio.charset.Charset
 
 class ScpKey(val key: ByteArray, val specifier: ByteArray = newSpecifier(ALGORITHM)) {

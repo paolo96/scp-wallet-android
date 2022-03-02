@@ -10,8 +10,8 @@ android {
         applicationId "com.scp.wallet"
         minSdk 23
         targetSdk 31
-        versionCode 6
-        versionName "1.0.6"
+        versionCode 7
+        versionName "1.0.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,10 +49,10 @@ dependencies {
     implementation 'com.google.zxing:core:3.4.1'
     implementation 'com.airbnb.android:lottie:4.2.1'
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
-    def camerax_version = "1.1.0-beta01"
+    def camerax_version = "1.1.0-beta02"
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
-    implementation "androidx.camera:camera-view:1.1.0-beta01"
+    implementation "androidx.camera:camera-view:$camerax_version"
     testImplementation 'junit:junit:4.13.2'
     testImplementation "com.goterl:lazysodium-java:5.1.1"
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

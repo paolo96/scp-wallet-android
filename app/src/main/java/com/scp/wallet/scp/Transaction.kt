@@ -1,7 +1,6 @@
 package com.scp.wallet.scp
 
 import android.util.Base64
-import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
@@ -10,7 +9,6 @@ import com.scp.wallet.crypto.Crypto.Companion.crypto
 import com.scp.wallet.scp.ScpOutput.Companion.ID_SPECIFIER
 import com.scp.wallet.utils.Bytes
 import com.scp.wallet.utils.Hex
-import java.lang.Exception
 import java.math.BigInteger
 
 class Transaction(@SerializedName("siacoininputs") var inputs: Array<ScpInput>, @SerializedName("siacoinoutputs") var outputs: Array<ScpOutput>, @SerializedName("minerfees") var minerFees: Array<CurrencyValue>, @SerializedName("arbitrarydata") var arbitraryData: Array<ByteArray> = arrayOf()) {

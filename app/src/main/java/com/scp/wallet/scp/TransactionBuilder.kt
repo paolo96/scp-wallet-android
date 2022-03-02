@@ -1,11 +1,11 @@
 package com.scp.wallet.scp
 
-import com.google.gson.Gson
+import com.scp.wallet.R
 import com.scp.wallet.api.API
 import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.utils.Hex
+import com.scp.wallet.utils.Strings
 import com.scp.wallet.wallet.Wallet
-import java.lang.Exception
 import java.math.BigInteger
 
 class TransactionBuilder(val wallet: Wallet) {
@@ -30,7 +30,7 @@ class TransactionBuilder(val wallet: Wallet) {
 
                 val amount = if(feeIncluded) {
                     if(amountWithoutFee.value <= fee.value) {
-                        callbackError("There isn't enough balance to cover the miner fees.")
+                        callbackError(Strings.get(R.string.popup_description_insufficient_funds_fees))
                         return@let
                     }
                     amountWithoutFee
@@ -91,9 +91,9 @@ class TransactionBuilder(val wallet: Wallet) {
                 }
                 if(fund.value < amount.value) {
                     if(potentialFund.value >= amount.value) {
-                        callbackError("Necessary funds are in unconfirmed transactions. Wait until the pending transactions have been confirmed.")
+                        callbackError(Strings.get(R.string.exception_funds_unconfirmed))
                     } else {
-                        callbackError("Cannot send ${amount.toScpReadable()}. The balance for this wallet is ${potentialFund.toScpReadable()}.")
+                        callbackError(Strings.get(R.string.popup_description_insufficient_funds, amount.toScpReadable(), potentialFund.toScpReadable()))
                     }
                     return@let
                 }
@@ -138,12 +138,12 @@ class TransactionBuilder(val wallet: Wallet) {
                 try {
                     callback(sign(consensusHeight))
                 } catch (e: Exception) {
-                    callbackError("There was an exception while trying to sign the new transaction.")
+                    callbackError(Strings.get(R.string.exception_transaction_sign))
                 }
 
             }
         }, {
-            callbackError("The transaction could not be created due to a connection issue")
+            callbackError(Strings.get(R.string.exception_transaction_connection_issue))
         })
 
     }

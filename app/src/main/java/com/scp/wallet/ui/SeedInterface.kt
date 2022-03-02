@@ -2,7 +2,6 @@ package com.scp.wallet.ui
 
 import android.content.Context
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.widget.GridLayout

@@ -2,6 +2,8 @@ package com.scp.wallet.activities.wallets
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,9 +14,6 @@ import com.scp.wallet.databinding.ListItemTransactionBinding
 import com.scp.wallet.scp.Transaction
 import com.scp.wallet.utils.Dates
 import java.math.BigInteger
-
-import android.net.Uri
-import com.google.gson.Gson
 
 
 class TransactionsAdapter : ListAdapter<Transaction, TransactionsAdapter.ViewHolder>(TransactionsDiffCallback()) {
@@ -38,7 +37,7 @@ class TransactionsAdapter : ListAdapter<Transaction, TransactionsAdapter.ViewHol
 
             val transactionTime = item.blockTimestamp
             if(transactionTime == null) {
-                binding.itemTransactionTitle.text = "Unconfirmed"
+                binding.itemTransactionTitle.text = binding.root.resources.getString(R.string.unconfirmed)
             } else {
                 binding.itemTransactionTitle.text = Dates.timestampToReadable(transactionTime)
             }
@@ -46,11 +45,11 @@ class TransactionsAdapter : ListAdapter<Transaction, TransactionsAdapter.ViewHol
             item.walletValue?.let { tValue ->
 
                 if(item.confirmationHeight == null) {
-                    binding.itemTransactionDescription.text = "Waiting"
+                    binding.itemTransactionDescription.text = binding.root.resources.getString(R.string.waiting)
                     binding.itemTransactionValue.setTextColor(binding.root.resources.getColor(android.R.color.white, binding.root.context.theme))
                     binding.itemTransactionStatusImage.setImageResource(R.drawable.ic_transaction_pending)
                 } else {
-                    binding.itemTransactionDescription.text = getConfirms(item.confirmationBlocksPassed)
+                    binding.itemTransactionDescription.text = getConfirms(binding.root.resources, item.confirmationBlocksPassed)
                     if(tValue.value < BigInteger.ZERO) {
                         binding.itemTransactionValue.setTextColor(binding.root.resources.getColor(R.color.red_negative, binding.root.context.theme))
                         binding.itemTransactionStatusImage.setImageResource(R.drawable.ic_transaction_unconfirmed)
@@ -66,17 +65,17 @@ class TransactionsAdapter : ListAdapter<Transaction, TransactionsAdapter.ViewHol
 
         }
 
-        private fun getConfirms(confirms: Int?): String {
+        private fun getConfirms(resources: Resources, confirms: Int?): String {
             return if(confirms != null) {
                 if(confirms > 100) {
-                    "100+ confirmations"
+                    resources.getString(R.string.textview_transaction_confirmations_big)
                 } else if(confirms > 1) {
-                    "$confirms confirmations"
+                    resources.getString(R.string.textview_transaction_confirmations, confirms.toString())
                 } else {
-                    "One confirmation"
+                    resources.getString(R.string.textview_transaction_confirmation)
                 }
             } else {
-                "Confirmed"
+                resources.getString(R.string.textview_transaction_confirmed)
             }
         }
 

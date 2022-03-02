@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textAlignment="center"
-        android:text="You should store your seed safely to ensure that your funds remain in your possession."
+        android:text="@string/textview_export_seed_explain"
         app:layout_constraintEnd_toEndOf="@+id/createWalletWarning"
         app:layout_constraintStart_toStartOf="@+id/createWalletWarning"
         app:layout_constraintTop_toBottomOf="@+id/createWalletWarning" />

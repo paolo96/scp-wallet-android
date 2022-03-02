@@ -1,5 +1,6 @@
 package com.scp.wallet.utils
 
+import com.scp.wallet.R
 import kotlin.math.roundToInt
 
 object Dates {
@@ -8,18 +9,18 @@ object Dates {
 
         val now = System.currentTimeMillis() / 1000
 
-        if(t == 0L) {
-            return "Unknown"
+        return if(t == 0L) {
+            Strings.get(R.string.unknown)
         } else if(now - t < 120) {
-            return "Moments ago"
+            Strings.get(R.string.moments_ago)
         } else if(now - t < 3600*2) {
-            return "${((now - t)/60.0).roundToInt()} minutes ago"
+            Strings.get(R.string.minutes_ago, ((now - t)/60.0).roundToInt().toString())
         } else if(now - t < 3600*48) {
-            return "${((now - t)/3600.0).roundToInt()} hours ago"
+            Strings.get(R.string.hours_ago, ((now - t)/3600.0).roundToInt().toString())
         } else if(now - t < 3600*24*30*6) {
-            return "${((now - t)/(24*3600.0)).roundToInt()} days ago"
+            Strings.get(R.string.days_ago, ((now - t)/(24*3600.0)).roundToInt().toString())
         } else {
-            return "Long time ago"
+            Strings.get(R.string.long_time_ago)
         }
 
     }

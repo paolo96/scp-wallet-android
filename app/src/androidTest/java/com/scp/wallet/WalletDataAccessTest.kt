@@ -1,17 +1,13 @@
 package com.scp.wallet
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.util.Base64
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.scp.wallet.crypto.Crypto
-import com.scp.wallet.utils.Hex
 import com.scp.wallet.wallet.Wallet
 import com.scp.wallet.wallet.WalletDataAccess
 import com.scp.wallet.wallet.WalletDataAccess.Companion.KEY_PROGRESS
 import com.scp.wallet.wallet.WalletDataAccess.Companion.SHARED_PREF_WALLET_PREFIX
-
 import org.junit.Test
 import org.junit.runner.RunWith
 

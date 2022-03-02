@@ -2,9 +2,9 @@ package com.scp.wallet.activities.launch
 
 import android.animation.Animator
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.api.API
 import com.scp.wallet.databinding.ActivityLaunchBinding

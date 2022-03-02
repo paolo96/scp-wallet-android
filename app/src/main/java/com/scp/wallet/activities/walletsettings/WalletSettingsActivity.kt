@@ -1,13 +1,13 @@
 package com.scp.wallet.activities.walletsettings
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.scp.wallet.R
 import com.scp.wallet.activities.exportseed.ExportSeedActivity
-import com.scp.wallet.activities.launch.LaunchActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_ID
 import com.scp.wallet.activities.wallets.WalletsActivity.Companion.IE_WALLET_PWD
@@ -25,7 +25,7 @@ class WalletSettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWalletSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Wallet Settings"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_wallet_settings)
 
         val walletId = intent.getStringExtra(IE_WALLET_ID)
         val walletPwd = intent.getByteArrayExtra(IE_WALLET_PWD)
@@ -74,7 +74,7 @@ class WalletSettingsActivity : AppCompatActivity() {
 
         binding.walletSettingsDelete.setOnClickListener {
 
-            Popup.showChoice("Do you want to remove this wallet?", "Make sure that you have copied your seed. You will not be able to recover this wallet otherwise.", this) { result ->
+            Popup.showChoice(getString(R.string.popup_title_remove_wallet), getString(R.string.popup_description_remove_wallet), this) { result ->
                 if(result) {
 
                     wallet.getDataAccess().reset()
@@ -116,13 +116,13 @@ class WalletSettingsActivity : AppCompatActivity() {
 
             if(wallet.getProgress() != binding.walletSettingsAddresses.text.toString().toInt()) {
 
-                Popup.showChoice("Are you sure?", "Use this setting only if you understand what it does.", this) { result ->
+                Popup.showChoice(getString(R.string.popup_title_advanced_warning), getString(R.string.popup_description_advanced_warning), this) { result ->
                     if(result) {
                         val newAddressesNum = binding.walletSettingsAddresses.text.toString().toInt() - wallet.getProgress()
                         if(newAddressesNum <= 0) {
-                            Toast.makeText(this, "Invalid number of addresses", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_invalid_number_addresses), Toast.LENGTH_SHORT).show()
                         } else if(newAddressesNum > Wallet.MAX_NUM_ADDRESSES_IMPORT) {
-                            Toast.makeText(this, "Max allowed is ${Wallet.MAX_NUM_ADDRESSES_IMPORT}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.toast_max_allowed_import_addresses, Wallet.MAX_NUM_ADDRESSES_IMPORT.toString()), Toast.LENGTH_SHORT).show()
                         } else {
 
                             val seed = wallet.getSeed()
@@ -154,7 +154,7 @@ class WalletSettingsActivity : AppCompatActivity() {
 
             Popup.showChangePasswordWallet(wallet, this) { result ->
                 if(result) {
-                    Toast.makeText(this, "Password changed successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.toast_password_change_success), Toast.LENGTH_SHORT).show()
                 }
             }
 

@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textAlignment="center"
-        android:text="Write down here your secret 29 or 28 words seed.\nIt will be encrypted and stored safely in your device."
+        android:text="@string/textview_import_wallet_explain"
         app:layout_constraintEnd_toEndOf="@+id/importWalletPen"
         app:layout_constraintStart_toStartOf="@+id/importWalletPen"
         app:layout_constraintTop_toBottomOf="@+id/importWalletPen" />
@@ -65,7 +65,7 @@
         android:background="@drawable/button_background"
         android:clipToPadding="false"
         android:elevation="10dp"
-        android:text="Import"
+        android:text="@string/button_import"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
