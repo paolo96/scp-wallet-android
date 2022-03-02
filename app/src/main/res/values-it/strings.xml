@@ -41,7 +41,7 @@
     <string name="textview_no_transactions">Questo portafoglio non ha transazioni</string>
     <string name="textview_new_password_label">Nuova Password</string>
     <string name="textview_add_a_wallet">Aggiungi un portafoglio</string>
-    <string name="textview_add_a_wallet_explain">È gratis e puoi\ncrearne quanti ne vuoi</string>
+    <string name="textview_add_a_wallet_explain">È gratis e puoi crearne\nquanti ne vuoi</string>
     <string name="textview_latest_transaction">Ultima Transazione</string>
     <string name="edittext_hint_amount">Valore</string>
     <string name="button_send_current_wallet">Invia con l\'attuale portafoglio</string>

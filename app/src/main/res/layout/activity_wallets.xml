@@ -143,16 +143,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/floatingScan"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/button_background_blue"
         android:elevation="16dp"
         android:clipToPadding="false"
+        app:layout_constraintWidth_min="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/floatingScanIcon"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/floatingScanText" />
 
     <TextView
         android:id="@+id/floatingScanText"
@@ -163,9 +164,10 @@
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:elevation="16dp"
+        android:paddingStart="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/floatingScan"
-        app:layout_constraintEnd_toEndOf="@+id/floatingScan"
-        app:layout_constraintStart_toStartOf="@+id/floatingScan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/floatingScan" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -174,10 +176,10 @@
         android:layout_height="wrap_content"
         android:elevation="16dp"
         android:layout_marginStart="8dp"
+        android:paddingEnd="20dp"
         app:srcCompat="@drawable/ic_scan"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintBottom_toBottomOf="@+id/floatingScan"
-        app:layout_constraintEnd_toEndOf="@+id/floatingScan"
         app:layout_constraintStart_toEndOf="@+id/floatingScanText"
         app:layout_constraintTop_toTopOf="@+id/floatingScan" />
 

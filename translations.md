@@ -29,6 +29,7 @@ Please follow these guidelines when translating the strings.xml file:
 * Maintain the formatting of the english strings when possible. For example if a string ends with a period, the translation should also end with a period. If a string starts with a capital letter, the translation should also start with a capital letter if it makes sense in the language you're translating to.
 * Treat variables carefully. Some strings contain variables that look like this "%1$s". For example "%1$s minutes ago" will be displayed as "10 minutes ago" or "25 minutes ago" to the user. Position them where it makes most sense in the translation.
 * Special characters. You can find [here](https://developer.android.com/guide/topics/resources/string-resource#escaping_quotes) a list of characters that must be escaped and how to escape them. For example the single quote ' should be escaped with a backslash \\'
+* New lines characters. You will find newline characters "\\n", try to use them in the same way they are used.
 * Partial translations will not be merged, although you can still push them, maybe someone else will complete them
 
 ## Translation updates
@@ -37,4 +38,4 @@ With time, as new features are added to SCP Wallet, translations of existing lan
 
 They will be published in English initially until someone updates that language.
 
-So contribution to existing languages which are lagging behind are as welcome as new translations.
+So contribution to existing languages that are lagging behind are really welcomed as well.
