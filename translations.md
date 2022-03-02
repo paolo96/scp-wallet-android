@@ -39,3 +39,11 @@ With time, as new features are added to SCP Wallet, translations of existing lan
 They will be published in English initially until someone updates that language.
 
 So contribution to existing languages that are lagging behind are really welcomed as well.
+
+## Play store listing translation
+
+If you decide to translate SCP Wallet in another language, please consider also translating the Play store listing information.
+
+It will help users to find the app and to immediately know that their language is supported.
+
+[Here](play-store.md) you can find the current Play store info, just add an entry with the new language to the file, I'll update it on the store afterwards.
