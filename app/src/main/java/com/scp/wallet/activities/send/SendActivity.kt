@@ -170,7 +170,7 @@ class SendActivity : AppCompatActivity() {
             insertedValue = CurrencyValue.initFromDouble(value)
         } else {
             scpFiat?.let { scpFiatValue ->
-                insertedValue = CurrencyValue.initFromDouble(value*scpFiatValue)
+                insertedValue = CurrencyValue.initFromDouble(value/scpFiatValue)
             }
         }
 

@@ -48,6 +48,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
     private val walletsAdapter = WalletsAdapter()
     private val transactionsAdapter = TransactionsAdapter()
     private val walletsLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    private val transactionsLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
     private val refreshIntervalSeconds = 30L
 
@@ -99,7 +100,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
 
         binding.walletTransactionsRecycler.apply {
             adapter = transactionsAdapter
-            layoutManager = LinearLayoutManager(this@WalletsActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager = transactionsLayoutManager
         }
 
     }
@@ -289,6 +290,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                     intent.getStringExtra(IE_WALLET_ID)?.let { id ->
                         walletsViewModel.updateWallet(id, intent.getByteArrayExtra(IE_WALLET_PWD))
                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
+                        transactionsLayoutManager.smoothScrollToPosition(binding.walletTransactionsRecycler, null, 0)
                     }
                 }
             }
@@ -300,6 +302,7 @@ class WalletsActivity : AppCompatActivity(), WalletSettingsOpener {
                     intent.getStringExtra(IE_WALLET_ID)?.let { id ->
                         walletsViewModel.updateWallet(id, null)
                         walletsAdapter.notifyItemChanged(walletsLayoutManager.findFirstVisibleItemPosition())
+                        transactionsLayoutManager.smoothScrollToPosition(binding.walletTransactionsRecycler, null, 0)
                     }
                 }
             }
