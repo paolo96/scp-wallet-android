@@ -1,0 +1,151 @@
+<resources>
+
+    <!--Do not translate the brand name-->
+    <string name="app_name">SCP Wallet</string>
+
+    <!--Activities titles-->
+    <string name="activity_title_wallets">Portafogli</string>
+    <string name="activity_title_export_seed">Esporta il Seed</string>
+    <string name="activity_title_receive">Ricevi SCP</string>
+    <string name="activity_title_send">Invia SCP</string>
+    <string name="activity_title_create_wallet">Creazione Portafoglio</string>
+    <string name="activity_title_import_wallet">Importa Portafoglio</string>
+    <string name="activity_title_new_wallet">Nuovo Portafoglio</string>
+    <string name="activity_title_settings">Impostazioni</string>
+    <string name="activity_title_wallet_settings">Impostazioni del Portafoglio</string>
+    <string name="activity_title_donations">Supporta lo Sviluppo</string>
+
+    <!--UI text-->
+    <string name="button_seed_warning">Ho scritto le %1$s parole</string>
+    <string name="textview_wallet_name">Portafoglio %1$s</string>
+    <string name="textview_miner_fees">Commissione miner: %1$s</string>
+    <string name="textview_transaction_confirmations_big">100+ conferme</string>
+    <string name="textview_transaction_confirmations">%1$s conferme</string>
+    <string name="textview_transaction_confirmation">Una conferma</string>
+    <string name="textview_transaction_confirmed">Confermata</string>
+    <string name="textview_create_wallet_explain">Prenditi un momento per scrivere queste parole su un pezzo di carta. Ti serviranno per recuperare il tuo portafoglio.</string>
+    <string name="textview_donation_explain">Se SCP Wallet ti è utile, considera di supportare i futuri sviluppi con una donazione.</string>
+    <string name="textview_donation_address">Indirizzo donazioni SCP</string>
+    <string name="textview_bitcoin_donation_address">Indirizzo donazioni bitcoin</string>
+    <string name="textview_export_seed_explain">Salva il seed in modo sicuro per avere la certezza che i fondi rimangano in tuo possesso.</string>
+    <string name="textview_import_wallet_explain">Scrivi qui le 28 o 29 parole segrete che compongono il tuo seed.\nVerranno criptate e salvate in modo sicuro sul tuo dispositivo.</string>
+    <string name="textview_wallet_name_label">Nome portafoglio</string>
+    <string name="textview_choose_password">Scegli una password con cui criptare il tuo portafoglio</string>
+    <string name="textview_password_label">Password</string>
+    <string name="textview_currency_scp">SCP</string>
+    <string name="textview_address_label">Indirizzo</string>
+    <string name="textview_server_label">Server</string>
+    <string name="textview_fiat_currency_label">Valuta Fiat</string>
+    <string name="textview_addresses_to_import">Indirizzi da importare</string>
+    <string name="textview_transactions_label">Transazioni</string>
+    <string name="textview_no_transactions">Questo portafoglio non ha transazioni</string>
+    <string name="textview_new_password_label">Nuova Password</string>
+    <string name="textview_add_a_wallet">Aggiungi un portafoglio</string>
+    <string name="textview_add_a_wallet_explain">È gratis e puoi crearne\nquanti ne vuoi</string>
+    <string name="textview_latest_transaction">Ultima Transazione</string>
+    <string name="edittext_hint_amount">Valore</string>
+    <string name="button_send_current_wallet">Invia con l\'attuale portafoglio</string>
+    <string name="button_copy_scp_address">Copia indirizzo SCP</string>
+    <string name="button_copy_btc_address">Copia indirizzo BTC</string>
+    <string name="button_import">Importa</string>
+    <string name="button_scan">Scannerizza</string>
+    <string name="button_save">Salva</string>
+    <string name="button_view_open_source_code">Vedi codice open source</string>
+    <string name="button_change_password">Cambia Password</string>
+    <string name="button_export">Esporta</string>
+    <string name="button_remove_wallet">Rimuovi Portafoglio</string>
+    <string name="button_send">Invia</string>
+    <string name="button_receive">Ricevi</string>
+    <string name="button_create">Crea</string>
+    <string name="button_copy">Copia</string>
+    <string name="button_share">Condividi</string>
+    <string name="button_new_address">Nuovo Indirizzo</string>
+    <string name="button_confirm">Conferma</string>
+    <string name="button_cancel">Cancella</string>
+    <string name="button_add_now">Aggiungi subito</string>
+
+    <!--Exceptions displayed to the user-->
+    <string name="exception_api">Non è stato possibile comunicare con il server.</string>
+    <string name="exception_funds_unconfirmed">I fondi necessari sono in transazioni non ancora confermate. Aspetta che le transazioni in sospeso vengano confermate.</string>
+    <string name="exception_transaction_sign">Non è stato possibile firmare la nuova transazione.</string>
+    <string name="exception_transaction_connection_issue">Non è stato possibile creare la transazione per un problema di connessione.</string>
+    <string name="exception_transaction_broadcast">Non è stato possibile trasmettere la transazione al network ScPrime.</string>
+    <string name="exception_wallet_locked">Portafoglio non sbloccato</string>
+    <string name="exception_wrong_password">La password fornita è errata</string>
+
+    <!--Popups and toasts-->
+    <string name="popup_title_invalid_seed">Seed non valido</string>
+    <string name="popup_description_invalid_seed_format">I formati supportati sono seed di 29 o 28 parole (in inglese) separate da spazi, a capi, virgole o punti e virgola.</string>
+    <string name="popup_description_invalid_seed_verification">Verifica del seed fallita: %1$s</string>
+    <string name="popup_title_big_wallet">Il portafoglio è troppo grande</string>
+    <string name="popup_description_big_wallet">Questo portafoglio ha utilizzato tanti indirizzi, Scp Wallet non è attualmente in grado di gestire correttamente grandi portafogli. Se decidi di importare questo portafoglio, tieni presente che alcune transazioni potrebbero non apparire e potresti non essere in grado di inviare transazioni. Vuoi procedere comunque?</string>
+    <string name="popup_title_sync_failed">Qualcosa è andato storto</string>
+    <string name="popup_description_sync_failed">Si è verificato un problema nella sincronizzazione delle transazioni. Riprova più tardi o cambia il server.</string>
+    <string name="popup_title_unlock_wallet">Portafoglio non sbloccato</string>
+    <string name="popup_description_unlock_wallet">Sblocca il portafoglio per procedere.</string>
+    <string name="popup_title_change_password">Cambia password</string>
+    <string name="popup_description_change_password">Inserisci la tua password attuale e quella nuova.</string>
+    <string name="popup_title_remove_wallet">Vuoi rimuovere questo portafoglio?</string>
+    <string name="popup_description_remove_wallet">Assicurati di aver copiato il seed. Non sarai in grado di recuperare questo portafoglio altrimenti.</string>
+    <string name="popup_title_scan_invalid_qr">QR code non valido</string>
+    <string name="popup_description_scan_invalid_qr">Questo QR code non contiene un indirizzo SCP valido.</string>
+    <string name="popup_title_no_camera_permission">Permesso di utilizzare la fotocamera negato</string>
+    <string name="popup_description_no_camera_permission">SCP wallet non ha il permesso di utilizzare la fotocamera. Puoi gestire i permessi nelle impostazioni di questo dispositivo.</string>
+    <string name="popup_title_insufficient_funds">Fondi insufficienti</string>
+    <string name="popup_description_insufficient_funds_fees">Questo portafoglio non ha abbastanza fondi per coprire le commissioni dei miner.</string>
+    <string name="popup_description_insufficient_funds">Non puoi mandare %1$s. Il saldo di questo portafoglio è %2$s.</string>
+    <string name="popup_title_emulator_warning">Avviso emulatore</string>
+    <string name="popup_description_emulator_warning">Le firme crittografiche potrebbero non funzionare nell\'emulatore. Vuoi procedere comunque?</string>
+    <string name="popup_title_transaction_sent">Transazione inviata</string>
+    <string name="popup_description_transaction_sent">La transazione è stata inviata con successo.</string>
+    <string name="popup_title_transaction_not_sent">Transazione non inviata</string>
+    <string name="popup_description_transaction_not_sent">Errore: %1$s</string>
+    <string name="popup_title_invalid_address">Indirizzo non valido</string>
+    <string name="popup_description_invalid_address">L\'indirizzo SCP fornito non risulta valido. %1$s</string>
+    <string name="popup_title_donation_no_wallet">Nessun portafoglio selezionato</string>
+    <string name="popup_description_donation_no_wallet">Passa al portafoglio dal quale desideri effettuare la donazione.</string>
+    <string name="popup_title_empty_wallet">Portafoglio vuoto</string>
+    <string name="popup_description_empty_wallet">Questo portafoglio non ha fondi.</string>
+    <string name="popup_title_advanced_warning">Sei sicuro?</string>
+    <string name="popup_description_advanced_warning">Utilizza questa impostazione solo se hai capito cosa fa.</string>
+    <string name="popup_title_change_server">Vuoi cambiare server?</string>
+    <string name="popup_description_change_server">Assicurati di utilizzare un server di cui ti fidi o tuo. Sebbene il server non ha accesso ai seed dei portafogli, un potenziale attore malevolo potrebbe mostrarti transazioni false e causare conseguenze anche gravi. Oltretutto i tuoi attuali portafogli potrebbero non essere più sincronizzati dopo questa azione, dovresti reimportarli se decidi di procedere.</string>
+    <string name="toast_invalid_amount">Valore non valido, transazione non inviata</string>
+    <string name="toast_empty_address">Nessun indirizzo inserito</string>
+    <string name="toast_invalid_number_addresses">Numero invalido di indirizzi</string>
+    <string name="toast_max_allowed_import_addresses">Massimo numero di indirizzi importabili: %1$s</string>
+    <string name="toast_password_change_success">Password cambiata con successo</string>
+
+    <!--Other-->
+    <string name="unknown">Sconosciuto</string>
+    <string name="moments_ago">Attimi fa</string>
+    <string name="minutes_ago">%1$s minuti fa</string>
+    <string name="hours_ago">%1$s ore fa</string>
+    <string name="days_ago">%1$s giorni fa</string>
+    <string name="long_time_ago">Molto tempo fa</string>
+    <string name="scp_address">Indirizzo SCP</string>
+    <string name="address_copied">Indirizzo copiato</string>
+    <string name="wrong_password">Password errata</string>
+    <string name="share_using">Condividi utilizzando</string>
+    <string name="unconfirmed">Non confermata</string>
+    <string name="waiting">In attesa</string>
+    <string name="none">Mai</string>
+    <string name="default_wallet_name">Predefinito</string>
+
+    <!--Do not translate-->
+    <string-array name="currencies_array">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>GBP</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>HKD</item>
+        <item>NZD</item>
+        <item>SEK</item>
+        <item>INR</item>
+    </string-array>
+
+</resources>

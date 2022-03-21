@@ -1,5 +1,6 @@
 package com.scp.wallet.exceptions
 
-import java.lang.Exception
+import com.scp.wallet.R
+import com.scp.wallet.utils.Strings
 
-class WalletLockedException(message: String = "Wallet is locked") : Exception(message)
+class WalletLockedException(message: String = Strings.get(R.string.exception_wallet_locked)) : Exception(message)

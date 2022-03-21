@@ -1,20 +1,19 @@
 package com.scp.wallet.wallet
 
 import android.content.Context
-import androidx.security.crypto.MasterKey
-import com.scp.wallet.scp.ScpOutput
-import com.scp.wallet.scp.SpendableKey
-import com.scp.wallet.scp.Transaction
-import androidx.security.crypto.EncryptedSharedPreferences
-
 import android.content.SharedPreferences
 import android.util.Base64
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.scp.wallet.R
 import com.scp.wallet.crypto.Crypto.Companion.XSALSA20_POLY1305_NONCEBYTES
 import com.scp.wallet.crypto.Crypto.Companion.crypto
 import com.scp.wallet.exceptions.WrongWalletPasswordException
-import java.lang.Exception
+import com.scp.wallet.scp.SpendableKey
+import com.scp.wallet.scp.Transaction
+import com.scp.wallet.utils.Strings
 
 //Stores and retrieves wallet data from the device
 //Everything is encrypted using AES256. The encryption is managed by androidx.security.crypto
@@ -27,15 +26,12 @@ class WalletDataAccess(walletId: String, context: Context) {
 
         const val KEY_PROGRESS = "progress"
         const val KEY_NAME = "name"
-        const val KEY_UTXOS = "utxos"
         const val KEY_TRANSACTIONS = "transactions"
         const val KEY_SEED = "seed"
         const val KEY_SEED_NONCE = "seed-nonce"
         const val KEY_ADDRESSES = "addresses"
         const val KEY_ADDRESSES_KEYS = "addresses-keys"
         const val KEY_ADDRESSES_KEYS_NONCE = "addresses-keys-nonce"
-        const val KEY_ADDRESSES_QUEUE = "addresses-queue"
-        const val KEY_ADDRESSES_QUEUE_UNUSED = "addresses-queue-unused"
 
     }
 
@@ -115,7 +111,7 @@ class WalletDataAccess(walletId: String, context: Context) {
 
     //Retrieves the wallet name
     fun getName() : String {
-        return sharedPreferences.getString(KEY_NAME, null) ?: "Default"
+        return sharedPreferences.getString(KEY_NAME, null) ?: Strings.get(R.string.default_wallet_name)
     }
 
     //Updates the wallet name

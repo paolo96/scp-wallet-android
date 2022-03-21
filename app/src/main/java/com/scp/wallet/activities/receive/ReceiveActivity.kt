@@ -4,11 +4,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.scp.wallet.R
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivityReceiveBinding
 import com.scp.wallet.exceptions.WalletLockedException
@@ -31,7 +32,7 @@ class ReceiveActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReceiveBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Receive SCP"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_receive)
 
         val walletId = intent.getStringExtra(WalletsActivity.IE_WALLET_ID)
         val walletPwd = intent.getByteArrayExtra(WalletsActivity.IE_WALLET_PWD)
@@ -78,16 +79,16 @@ class ReceiveActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-        val walletTitle = "Wallet ${wallet.name}"
+        val walletTitle = getString(R.string.textview_wallet_name, wallet.name)
         binding.receiveWalletName.text = walletTitle
 
     }
 
     private fun initObservers() {
 
-        receiveViewModel.address.observe(this, { address ->
+        receiveViewModel.address.observe(this) { address ->
             showAddress(address)
-        })
+        }
 
     }
 
@@ -95,16 +96,16 @@ class ReceiveActivity : AppCompatActivity() {
 
         binding.receiveCopyButton.setOnClickListener {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("SCP address", receiveViewModel.address.value)
+            val clip: ClipData = ClipData.newPlainText(getString(R.string.scp_address), receiveViewModel.address.value)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.address_copied), Toast.LENGTH_SHORT).show()
         }
 
         binding.receiveShareButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_TEXT, receiveViewModel.address.value)
-            startActivity(Intent.createChooser(intent, "Share using"))
+            startActivity(Intent.createChooser(intent, getString(R.string.share_using)))
         }
 
         binding.receiveNewAddressButton.setOnClickListener {

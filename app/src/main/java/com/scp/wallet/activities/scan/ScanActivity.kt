@@ -4,14 +4,10 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Size
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -22,7 +18,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import com.scp.wallet.activities.receive.ReceiveActivity
+import com.scp.wallet.R
 import com.scp.wallet.databinding.ActivityScanBinding
 import com.scp.wallet.exceptions.InvalidUnlockHashException
 import com.scp.wallet.scp.UnlockHash
@@ -68,7 +64,7 @@ class ScanActivity : AppCompatActivity() {
                     setResult(RESULT_OK, returnIntent)
                     finish()
                 } catch (e: InvalidUnlockHashException) {
-                    Popup.showSimple("Invalid QR code", "This QR code does not contain a valid SCP address.", this) {
+                    Popup.showSimple(getString(R.string.popup_title_scan_invalid_qr), getString(R.string.popup_description_scan_invalid_qr), this) {
                         cameraProviderFuture.get().bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, imageAnalysis, preview)
                     }
                     cameraProviderFuture.get().unbindAll()
@@ -107,14 +103,15 @@ class ScanActivity : AppCompatActivity() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
 
-        imageAnalysis.setAnalyzer(executor, { imageProxy ->
+        imageAnalysis.setAnalyzer(executor) { imageProxy ->
 
             val mediaImage = imageProxy.image
             if (mediaImage != null) {
-                val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+                val image =
+                    InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
                 scanner.process(image)
                     .addOnSuccessListener { barcodes ->
-                        if(barcodes.size > 0) {
+                        if (barcodes.size > 0) {
                             foundQrCode(barcodes)
                         }
                         imageProxy.close()
@@ -124,7 +121,7 @@ class ScanActivity : AppCompatActivity() {
                     }
             }
 
-        })
+        }
 
         return imageAnalysis
     }
@@ -135,7 +132,7 @@ class ScanActivity : AppCompatActivity() {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 startCamera()
             } else {
-                Popup.showSimple("Camera permission not granted", "The permission to use the camera has not been granted to SCP wallet. You can manage permissions in your phone settings.", this) {
+                Popup.showSimple(getString(R.string.popup_title_no_camera_permission), getString(R.string.popup_description_no_camera_permission), this) {
                     onBackPressed()
                 }
             }

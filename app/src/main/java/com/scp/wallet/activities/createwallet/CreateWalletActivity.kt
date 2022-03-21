@@ -1,14 +1,8 @@
 package com.scp.wallet.activities.createwallet
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.GridLayout
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.scp.wallet.R
 import com.scp.wallet.activities.newwallet.NewWalletActivity
 import com.scp.wallet.activities.wallets.WalletsActivity
@@ -16,9 +10,6 @@ import com.scp.wallet.crypto.Crypto
 import com.scp.wallet.databinding.ActivityCreateWalletBinding
 import com.scp.wallet.ui.SeedInterface
 import com.scp.wallet.utils.Hex
-import com.scp.wallet.utils.capitalized
-import com.scp.wallet.utils.dp
-import com.scp.wallet.utils.px
 import com.scp.wallet.wallet.Wallet
 
 class CreateWalletActivity : AppCompatActivity() {
@@ -32,7 +23,7 @@ class CreateWalletActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateWalletBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Wallet Creation"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_create_wallet)
 
         val walletPassword = intent.getStringExtra(NewWalletActivity.IE_WALLET_PWD)
 
@@ -48,8 +39,7 @@ class CreateWalletActivity : AppCompatActivity() {
 
             SeedInterface.drawSeed(newSeed, binding.createWalletSeedContainer, this)
 
-            val buttonWarning = "I have written the ${newSeed.split(" ").size} words"
-            binding.createWalletConfirm.text = buttonWarning
+            binding.createWalletConfirm.text = getString(R.string.button_seed_warning, newSeed.split(" ").size.toString())
             initListeners()
 
         } else {

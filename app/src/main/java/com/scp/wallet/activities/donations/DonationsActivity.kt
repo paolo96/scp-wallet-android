@@ -4,10 +4,11 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.scp.wallet.R
 import com.scp.wallet.activities.wallets.WalletsActivity
 import com.scp.wallet.databinding.ActivityDonationsBinding
 
@@ -24,7 +25,7 @@ class DonationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDonationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.customActionBar.actionBarTitle.text = "Support Development"
+        binding.customActionBar.actionBarTitle.text = getString(R.string.activity_title_donations)
 
         initViews()
         initListeners()
@@ -46,16 +47,16 @@ class DonationsActivity : AppCompatActivity() {
 
         binding.donationsSCPAddressCopy.setOnClickListener {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("SCP address", DONATION_ADDRESS_SCP)
+            val clip: ClipData = ClipData.newPlainText(getString(R.string.scp_address), DONATION_ADDRESS_SCP)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.address_copied), Toast.LENGTH_SHORT).show()
         }
 
         binding.donationsBTCAddressCopy.setOnClickListener {
             val clipboard: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip: ClipData = ClipData.newPlainText("SCP address", DONATION_ADDRESS_BTC)
+            val clip: ClipData = ClipData.newPlainText(getString(R.string.scp_address), DONATION_ADDRESS_BTC)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Address copied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.address_copied), Toast.LENGTH_SHORT).show()
         }
 
         binding.donationsSCPwallet.setOnClickListener {

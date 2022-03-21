@@ -4,7 +4,6 @@ import com.goterl.lazysodium.LazySodium
 import com.goterl.lazysodium.LazySodiumAndroid
 import com.goterl.lazysodium.SodiumAndroid
 import com.goterl.lazysodium.utils.Key
-import java.lang.Exception
 
 class Crypto(private var lazySodium: LazySodium) {
 

@@ -2,7 +2,6 @@ package com.scp.wallet
 
 import com.scp.wallet.api.API
 import org.junit.Test
-import java.lang.Exception
 import java.math.BigInteger
 import java.util.concurrent.CountDownLatch
 

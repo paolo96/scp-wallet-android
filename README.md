@@ -2,7 +2,10 @@
 SCP Wallet is lightweight, privacy focused, open source [ScPrime](https://gitlab.com/scpcorp/ScPrime) wallet for Android.
 
 ## Get started
-You can build the APK from source or download the latest release.
+There are multiple ways to download SCP Wallet for Android:
+* Download it from the [Google Play Store](https://play.google.com/store/apps/details?id=com.scp.wallet)
+* Download the latest APK release from this repository
+* Build the APK from the source code
 
 ## Security
 The data stored by the app is encrypted with [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) which takes advantage of the [Android keystore system](https://developer.android.com/training/articles/keystore).
@@ -35,6 +38,10 @@ Feel free to make a pull request to add useful features or bug fixes.
 ### Run a *scp-wallet-api* server
 
 If you're able to run a reliable server contact me to be added to the list of trusted servers.
+
+### Translations
+
+No programming skills necessary. Follow [this contribution guide](translations.md) to translate SCP Wallet in a language you know.
 
 
 ## Preview
